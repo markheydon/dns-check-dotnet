@@ -4,7 +4,7 @@ Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.c
 
 [![CI](https://github.com/markheydon/dns-check-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/markheydon/dns-check-dotnet/actions/workflows/ci.yml)
 
-> **Prerelease (`0.1.0-alpha.2`).** All documented v1 monitoring GET operations are implemented.
+> **Prerelease (`0.1.0-alpha.3`).** All documented v1 monitoring GET operations are implemented.
 
 ## Features
 
@@ -12,6 +12,7 @@ Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.c
 - Typed models and exceptions
 - Targets .NET 8.0 and .NET 10.0
 - Fully async with XML documentation
+- `AddDnsCheckClient` for `IHttpClientFactory` integration
 
 ## Installation
 
@@ -23,18 +24,21 @@ dotnet add package DnsCheck.Client
 
 ```csharp
 using DnsCheck.Client;
+using DnsCheck.Client.DependencyInjection;
 using DnsCheck.Client.Models.Groups;
 using DnsCheck.Client.Models.DnsRecords;
 
 const string exampleGroup = "ea883d67-d9f6-45e3-b3a1-844dd1857824";
 
-using var client = new DnsCheckClient("your-api-key");
+// In your host setup:
+builder.Services.AddDnsCheckClient(options => options.ApiKey = "your-api-key");
 
+// Resolve from DI, then call the API:
 DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
 IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exampleGroup);
 ```
 
-Use `new DnsCheckClient()` without a key for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring).
+Omit `ApiKey` in `AddDnsCheckClient` for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). See [docs/getting-started.md](docs/getting-started.md) for registration and test `HttpClient` patterns.
 
 **Documentation:** [docs/](docs/README.md)
 

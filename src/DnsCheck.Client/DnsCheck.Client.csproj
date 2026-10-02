@@ -5,10 +5,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <PackageId>DnsCheck.Client</PackageId>
-    <Version>0.1.0-alpha.2</Version>
+    <Version>0.1.0-alpha.3</Version>
     <Authors>Mark Heydon</Authors>
     <Description>Unofficial .NET client for the DNS Check monitoring API. Not affiliated with DNS Check or Wind Serve, LLC. Prerelease: implements all documented v1 monitoring GET operations.</Description>
-    <PackageReleaseNotes>Implements all documented DNS Check v1 monitoring GET operations (groups and records, including account-wide list endpoints).</PackageReleaseNotes>
+    <PackageReleaseNotes>Breaking: register DnsCheckClient via AddDnsCheckClient or inject HttpClient. Implements all documented DNS Check v1 monitoring GET operations.</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/markheydon/dns-check-dotnet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/markheydon/dns-check-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -23,6 +23,10 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="DnsCheck.Client.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Http" />
   </ItemGroup>
 
 </Project>

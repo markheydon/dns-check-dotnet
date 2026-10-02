@@ -7,10 +7,15 @@ Generate a key: [DNS Check — Generating an API Key](https://www.dnscheck.co/ap
 ## SDK usage
 
 ```csharp
-using var client = new DnsCheckClient(apiKey);
+using DnsCheck.Client.DependencyInjection;
+
+builder.Services.AddDnsCheckClient(options =>
+{
+    options.ApiKey = apiKey;
+});
 ```
 
-The `DnsCheckClient(string apiKey)` constructor requires a non-empty API key. Use `new DnsCheckClient()` when you do not have a key (for example the public example group). Optional keys on the `HttpClient` overload must be `null` or a non-whitespace value.
+When registering via `AddDnsCheckClient`, `DnsCheckClientOptions.ApiKey` must be `null` or a non-whitespace value. For manual construction, pass `null` or a non-whitespace key to `DnsCheckClient(HttpClient, string?)`.
 
 Treat the key as a secret. Do not commit it to source control.
 
@@ -25,7 +30,7 @@ CI uses mocked HTTP only; it does not read these variables.
 
 ## Account-wide listing
 
-`Groups.ListAllAsync()` and `DnsRecords.ListAllAsync()` require a client constructed with an API key. The parameterless `DnsCheckClient()` constructor is intended for the public example group and other unauthenticated reads documented by DNS Check.
+`Groups.ListAllAsync()` and `DnsRecords.ListAllAsync()` require an API key configured on the client. Omit the key only when using the public example group and other unauthenticated reads documented by DNS Check.
 
 ## Public example group
 

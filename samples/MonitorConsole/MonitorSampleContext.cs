@@ -1,7 +1,9 @@
 using DnsCheck.Client;
+using DnsCheck.Client.DependencyInjection;
 using DnsCheck.Client.Models;
 using DnsCheck.Client.Models.DnsRecords;
 using DnsCheck.Client.Models.Groups;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DnsCheck.MonitorConsole;
 
@@ -12,8 +14,16 @@ internal sealed class MonitorSampleContext : IDisposable
     internal const string ApiKeyEnvironmentVariable = "DNSCHECK_API_KEY";
     internal const string GroupUuidEnvironmentVariable = "DNSCHECK_GROUP_UUID";
 
-    internal MonitorSampleContext(DnsCheckClient client, string groupUuid, bool hasApiKey, bool hasInvalidApiKey)
+    private readonly ServiceProvider _serviceProvider;
+
+    internal MonitorSampleContext(
+        ServiceProvider serviceProvider,
+        DnsCheckClient client,
+        string groupUuid,
+        bool hasApiKey,
+        bool hasInvalidApiKey)
     {
+        _serviceProvider = serviceProvider;
         Client = client;
         GroupUuid = groupUuid;
         HasApiKey = hasApiKey;
@@ -37,11 +47,19 @@ internal sealed class MonitorSampleContext : IDisposable
         bool hasInvalidApiKey = apiKey is not null && string.IsNullOrWhiteSpace(apiKey);
         bool hasApiKey = !string.IsNullOrWhiteSpace(apiKey);
 
-        DnsCheckClient client = hasApiKey
-            ? new DnsCheckClient(apiKey!)
-            : new DnsCheckClient();
+        ServiceCollection services = new();
+        services.AddDnsCheckClient(options =>
+        {
+            if (hasApiKey)
+            {
+                options.ApiKey = apiKey;
+            }
+        });
 
-        return new MonitorSampleContext(client, groupUuid, hasApiKey, hasInvalidApiKey);
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        DnsCheckClient client = serviceProvider.GetRequiredService<DnsCheckClient>();
+
+        return new MonitorSampleContext(serviceProvider, client, groupUuid, hasApiKey, hasInvalidApiKey);
     }
 
     internal void WriteBanner()
@@ -61,7 +79,7 @@ internal sealed class MonitorSampleContext : IDisposable
         Console.WriteLine();
     }
 
-    public void Dispose() => Client.Dispose();
+    public void Dispose() => _serviceProvider.Dispose();
 
     internal static string FormatMonitoringStatus(DnsCheckStatus status) =>
         status switch

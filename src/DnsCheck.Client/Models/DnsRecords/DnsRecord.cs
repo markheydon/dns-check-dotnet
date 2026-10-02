@@ -6,7 +6,7 @@ namespace DnsCheck.Client.Models.DnsRecords;
 /// <summary>
 /// A monitored DNS record within a DNS record group.
 /// </summary>
-public sealed class DnsRecord
+public sealed record DnsRecord
 {
     /// <summary>Unique identifier for the DNS record.</summary>
     [JsonPropertyName("id")]

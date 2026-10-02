@@ -12,7 +12,7 @@ internal static class AccountScopedRequests
         if (string.IsNullOrWhiteSpace(rest.ApiKey))
         {
             throw new DnsCheckRequestException(
-                "This operation requires an API key. Use DnsCheckClient(string apiKey) or pass a key to the HttpClient constructor.");
+                "This operation requires an API key. Configure DnsCheckClientOptions.ApiKey in AddDnsCheckClient or pass a key to the HttpClient constructor.");
         }
     }
 }

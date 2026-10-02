@@ -12,10 +12,13 @@ dotnet add package DnsCheck.Client
 
 ```csharp
 using DnsCheck.Client;
+using DnsCheck.Client.DependencyInjection;
 using DnsCheck.Client.Models.DnsRecords;
 using DnsCheck.Client.Models.Groups;
 
-using var client = new DnsCheckClient("your-api-key");
+builder.Services.AddDnsCheckClient(options => options.ApiKey = "your-api-key");
+
+DnsCheckClient client = /* resolve from DI */;
 
 DnsRecordGroup group = await client.Groups.GetAsync("group-uuid");
 IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync("group-uuid");

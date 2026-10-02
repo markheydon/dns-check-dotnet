@@ -6,7 +6,7 @@ namespace DnsCheck.Client.Models.Groups;
 /// <summary>
 /// A DNS record group monitored by DNS Check.
 /// </summary>
-public sealed class DnsRecordGroup
+public sealed record DnsRecordGroup
 {
     /// <summary>Universally unique identifier for the group.</summary>
     [JsonPropertyName("uuid")]

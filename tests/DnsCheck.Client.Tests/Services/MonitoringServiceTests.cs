@@ -17,7 +17,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("group-get.json"));
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         DnsRecordGroup group = await client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken);
 
@@ -37,7 +37,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         IReadOnlyList<DnsRecordGroup> groups = await client.Groups.ListAllAsync(TestContext.Current.CancellationToken);
 
@@ -52,7 +52,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_ListAllAsync_WithoutApiKey_ThrowsDnsCheckRequestException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
@@ -64,7 +64,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-record-get.json"));
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         DnsRecord record = await client.DnsRecords.GetAsync(ExampleGroupUuid, 5530, TestContext.Current.CancellationToken);
 
@@ -82,7 +82,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list-empty.json"));
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(
             ExampleGroupUuid,
@@ -97,7 +97,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, "{}");
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.DnsRecords.ListInGroupAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
@@ -110,7 +110,7 @@ public sealed class MonitoringServiceTests
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
         handler.Enqueue(HttpStatusCode.NotFound, "\"Not found\"");
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         DnsCheckApiException exception = await Assert.ThrowsAsync<DnsCheckApiException>(
             () => client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken));
@@ -125,7 +125,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, "{}");
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.DnsRecords.GetAsync(ExampleGroupUuid, 5530, TestContext.Current.CancellationToken));
@@ -137,7 +137,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, "{}");
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
@@ -149,7 +149,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list.json"));
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(
             ExampleGroupUuid,
@@ -171,7 +171,7 @@ public sealed class MonitoringServiceTests
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list.json"));
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list-empty.json"));
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken);
 
@@ -195,7 +195,7 @@ public sealed class MonitoringServiceTests
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list.json"));
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken);
 
@@ -213,7 +213,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task DnsRecords_ListAllAsync_WithoutApiKey_ThrowsDnsCheckRequestException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken));
@@ -225,7 +225,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.Unauthorized, "\"Unauthorized\"");
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         DnsCheckApiException exception = await Assert.ThrowsAsync<DnsCheckApiException>(
             () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
@@ -241,7 +241,7 @@ public sealed class MonitoringServiceTests
         string body = FixtureFiles.Read("group-get.json").Replace("\"fail\"", "\"pending\"", StringComparison.Ordinal);
         handler.Enqueue(HttpStatusCode.OK, body);
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
@@ -254,7 +254,7 @@ public sealed class MonitoringServiceTests
         string body = FixtureFiles.Read("dns-record-get.json").Replace("\"ALIAS\"", "\"NEWTYPE\"", StringComparison.Ordinal);
         handler.Enqueue(HttpStatusCode.OK, body);
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.DnsRecords.GetAsync(ExampleGroupUuid, 5530, TestContext.Current.CancellationToken));
@@ -266,7 +266,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.NotFound, "\"Not found\"");
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         DnsCheckApiException exception = await Assert.ThrowsAsync<DnsCheckApiException>(
             () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
@@ -281,7 +281,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, "{}");
 
-        using DnsCheckClient client = CreateClient(handler);
+        DnsCheckClient client = CreateClient(handler);
 
         await Assert.ThrowsAsync<DnsCheckParseException>(
             () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
@@ -293,7 +293,7 @@ public sealed class MonitoringServiceTests
         QueuedHttpMessageHandler handler = new();
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all-empty.json"));
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken);
 
@@ -318,7 +318,7 @@ public sealed class MonitoringServiceTests
             }
         };
 
-        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+        DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
 
         await Assert.ThrowsAnyAsync<OperationCanceledException>(
             () => client.DnsRecords.ListAllAsync(cts.Token));
@@ -331,7 +331,7 @@ public sealed class MonitoringServiceTests
     [InlineData(-1)]
     public async Task DnsRecords_GetAsync_WhenRecordIdNotPositive_ThrowsDnsCheckRequestException(int recordId)
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId, TestContext.Current.CancellationToken));
@@ -340,7 +340,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task DnsRecords_GetAsync_WhenCancelled_ThrowsOperationCanceledException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
         using CancellationTokenSource cts = new();
         cts.Cancel();
 
@@ -351,7 +351,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task DnsRecords_ListInGroupAsync_WhenCancelled_ThrowsOperationCanceledException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
         using CancellationTokenSource cts = new();
         cts.Cancel();
 
@@ -362,7 +362,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_GetAsync_WhenCancelled_ThrowsOperationCanceledException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
         using CancellationTokenSource cts = new();
         cts.Cancel();
 
@@ -373,7 +373,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_ListAllAsync_WhenCancelled_ThrowsOperationCanceledException()
     {
-        using DnsCheckClient client = new("test-api-key");
+        DnsCheckClient client = CreateClient(apiKey: "test-api-key");
         using CancellationTokenSource cts = new();
         cts.Cancel();
 
@@ -384,7 +384,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_ListAllAsync_WhenCancelledWithoutApiKey_ThrowsOperationCanceledException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
         using CancellationTokenSource cts = new();
         cts.Cancel();
 
@@ -397,7 +397,7 @@ public sealed class MonitoringServiceTests
     [InlineData("ALL")]
     public async Task Groups_GetAsync_WhenAll_ThrowsDnsCheckRequestException(string groupUuid)
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         DnsCheckRequestException exception = await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.Groups.GetAsync(groupUuid, TestContext.Current.CancellationToken));
@@ -408,7 +408,7 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task DnsRecords_ListInGroupAsync_WhenAll_ThrowsDnsCheckRequestException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         DnsCheckRequestException exception = await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.DnsRecords.ListInGroupAsync("all", TestContext.Current.CancellationToken));
@@ -419,14 +419,15 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_GetAsync_InvalidGroupUuid_ThrowsDnsCheckRequestException()
     {
-        using DnsCheckClient client = new();
+        DnsCheckClient client = CreateClient();
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.Groups.GetAsync("all?api_key=other", TestContext.Current.CancellationToken));
     }
 
-    private static DnsCheckClient CreateClient(QueuedHttpMessageHandler handler, string? apiKey = null)
+    private static DnsCheckClient CreateClient(QueuedHttpMessageHandler? handler = null, string? apiKey = null)
     {
+        handler ??= new QueuedHttpMessageHandler();
         HttpClient httpClient = new(handler);
         return apiKey is null
             ? new DnsCheckClient(httpClient)
