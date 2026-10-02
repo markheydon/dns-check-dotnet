@@ -6,7 +6,9 @@ namespace DnsCheck.Client;
 public static class DnsCheckGroups
 {
     /// <summary>
-    /// List all DNS record groups for the authenticated account.
+    /// Path token for listing all DNS record groups for the authenticated account
+    /// (<c>GET groups/all</c>). Use <see cref="Services.Groups.IGroupService.ListAllAsync"/> — do not pass this value to
+    /// <see cref="Services.Groups.IGroupService.GetAsync"/>.
     /// </summary>
     public const string All = "all";
 }

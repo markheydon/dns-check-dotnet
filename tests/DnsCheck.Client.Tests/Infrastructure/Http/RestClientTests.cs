@@ -34,6 +34,20 @@ public sealed class RestClientTests
     }
 
     [Fact]
+    public void BuildRequestUri_WhenQueryIncludesApiKey_ThrowsDnsCheckRequestException()
+    {
+        using HttpClient httpClient = new();
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), "test-key");
+
+        DnsCheckRequestException exception = Assert.Throws<DnsCheckRequestException>(
+            () => rest.BuildRequestUri(
+                "groups/all",
+                [new RestQuery.QueryParameter("api_key", "other")]));
+
+        Assert.Contains("api_key", exception.Message, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void Constructor_WhitespaceApiKey_ThrowsArgumentException()
     {
         using HttpClient httpClient = new();

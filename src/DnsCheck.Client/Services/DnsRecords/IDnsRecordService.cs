@@ -14,6 +14,7 @@ public interface IDnsRecordService
     /// <param name="recordId">The DNS record ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The requested DNS record.</returns>
+    /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>
@@ -25,6 +26,7 @@ public interface IDnsRecordService
     /// <param name="groupUuid">The DNS record group UUID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>All DNS records in the group.</returns>
+    /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>

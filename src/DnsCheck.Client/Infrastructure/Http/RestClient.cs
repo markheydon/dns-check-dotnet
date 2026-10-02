@@ -48,6 +48,15 @@ internal sealed class RestClient
 
         if (queryParameters is not null)
         {
+            foreach (RestQuery.QueryParameter parameter in queryParameters)
+            {
+                if (string.Equals(parameter.Name, "api_key", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new DnsCheckRequestException(
+                        "The api_key query parameter is added by the SDK and must not be supplied in queryParameters.");
+                }
+            }
+
             parameters.AddRange(queryParameters);
         }
 

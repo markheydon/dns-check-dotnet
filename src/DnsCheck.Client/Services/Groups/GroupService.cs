@@ -25,8 +25,16 @@ public sealed class GroupService : IGroupService
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default) =>
-        ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>(cancellationToken);
+    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(_rest.ApiKey))
+        {
+            throw new DnsCheckRequestException(
+                "Listing all DNS record groups requires an API key. Use DnsCheckClient(string apiKey) or pass a key to the HttpClient constructor.");
+        }
+
+        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>(cancellationToken);
+    }
 
     internal RestClient RestClient => _rest;
 }

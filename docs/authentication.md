@@ -23,6 +23,10 @@ Treat the key as a secret. Do not commit it to source control.
 
 CI uses mocked HTTP only; it does not read these variables.
 
+## Account-wide listing
+
+`Groups.ListAllAsync()` requires a client constructed with an API key. The parameterless `DnsCheckClient()` constructor is intended for the public example group and other unauthenticated reads documented by DNS Check.
+
 ## Public example group
 
 Group UUID `ea883d67-d9f6-45e3-b3a1-844dd1857824` is documented as not requiring a valid API key for read access.

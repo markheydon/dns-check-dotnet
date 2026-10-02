@@ -57,7 +57,8 @@ Wrapper types: `GroupResponse`, `GroupsListResponse` (name TBD after `groups/all
 - Base: `https://www.dnscheck.co/api/v1/`
 - Build absolute request URIs with `RestClient.BuildRequestUri` (uses resolved base, not `HttpClient.BaseAddress`)
 - Append `api_key` via `RestQuery` when key is non-null
-- Validate `groupUuid` (and similar path segments) before building paths: GUID format, no `?`, `#`, or `/` — use `ApiPathValidation.ValidateGroupUuid`
+- Validate `groupUuid` (and similar path segments) before building paths: GUID format, no `?`, `#`, or `/` — use `ApiPathValidation.ValidateGroupUuid` (throws `DnsCheckRequestException`)
+- Do not pass `api_key` in caller-supplied query parameters; `RestClient` rejects duplicates
 - `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions`
 - Map 401/404 (and other errors) to `DnsCheckApiException` with body text
 - Do not mutate injected `HttpClient.DefaultRequestHeaders`

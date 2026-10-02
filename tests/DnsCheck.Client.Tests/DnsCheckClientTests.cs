@@ -24,6 +24,12 @@ public sealed class DnsCheckClientTests
     }
 
     [Fact]
+    public void Constructor_WithNullHttpClient_ThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() => new DnsCheckClient(null!));
+    }
+
+    [Fact]
     public void Constructor_WithHttpClient_UsesSuppliedClient()
     {
         using HttpClient httpClient = new()

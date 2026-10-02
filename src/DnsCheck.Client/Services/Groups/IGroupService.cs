@@ -13,6 +13,7 @@ public interface IGroupService
     /// <param name="groupUuid">The DNS record group UUID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The requested group.</returns>
+    /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>
@@ -23,6 +24,7 @@ public interface IGroupService
     /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>All groups visible to the API key.</returns>
+    /// <exception cref="DnsCheckRequestException">Thrown when the client was constructed without an API key.</exception>
     /// <exception cref="InvalidOperationException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>

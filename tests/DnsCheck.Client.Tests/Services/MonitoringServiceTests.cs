@@ -21,12 +21,21 @@ public sealed class MonitoringServiceTests
     [Fact]
     public async Task Groups_ListAllAsync_BeforeImplementation_ReturnsFaultedTask()
     {
-        using DnsCheckClient client = new();
+        using DnsCheckClient client = new("test-api-key");
 
         InvalidOperationException exception = await Assert.ThrowsAsync<InvalidOperationException>(
             () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
+    }
+
+    [Fact]
+    public async Task Groups_ListAllAsync_WithoutApiKey_ThrowsDnsCheckRequestException()
+    {
+        using DnsCheckClient client = new();
+
+        await Assert.ThrowsAsync<DnsCheckRequestException>(
+            () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -67,7 +76,7 @@ public sealed class MonitoringServiceTests
     {
         using DnsCheckClient client = new();
 
-        await Assert.ThrowsAsync<ArgumentException>(
+        await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.Groups.GetAsync("all?api_key=other", TestContext.Current.CancellationToken));
     }
 }
