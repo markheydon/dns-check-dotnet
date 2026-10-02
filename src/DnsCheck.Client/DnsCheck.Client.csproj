@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <PackageId>DnsCheck.Client</PackageId>
+    <Version>0.1.0-alpha.1</Version>
+    <Authors>Mark Heydon</Authors>
+    <Description>Unofficial .NET client for the DNS Check monitoring API. Not affiliated with DNS Check or Wind Serve, LLC.</Description>
+    <PackageProjectUrl>https://github.com/markheydon/dns-check-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/markheydon/dns-check-dotnet</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>dns;dnscheck;monitoring;api;client</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DnsCheck.Client.Tests" />
+  </ItemGroup>
+
+</Project>

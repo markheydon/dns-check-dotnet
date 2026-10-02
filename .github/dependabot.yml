@@ -1,0 +1,51 @@
+version: 2
+
+updates:
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Europe/London
+    open-pull-requests-limit: 5
+    assignees:
+      - markheydon
+    labels:
+      - type/chore
+      - status/todo
+      - priority/medium
+    groups:
+      patch-and-minor:
+        update-types:
+          - minor
+          - patch
+      tests:
+        patterns:
+          - "^xunit"
+          - "Microsoft\\.NET\\.Test\\.Sdk"
+          - "^Microsoft\\.Testing"
+          - "^coverlet"
+        update-types:
+          - minor
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "04:00"
+      timezone: Europe/London
+    open-pull-requests-limit: 5
+    assignees:
+      - markheydon
+    labels:
+      - type/chore
+      - status/todo
+      - priority/medium
+    groups:
+      patch-and-minor:
+        update-types:
+          - minor
+          - patch
