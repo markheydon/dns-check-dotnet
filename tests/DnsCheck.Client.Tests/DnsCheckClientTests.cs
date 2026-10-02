@@ -74,4 +74,24 @@ public sealed class DnsCheckClientTests
 
         Assert.Equal("test-api-key", DnsCheckClientTestAccess.GetApiKey(client));
     }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void Constructor_WithRequiredApiKey_WhenEmptyOrWhitespace_ThrowsArgumentException(string apiKey)
+    {
+        ArgumentException exception = Assert.Throws<ArgumentException>(() => new DnsCheckClient(apiKey));
+
+        Assert.Equal("apiKey", exception.ParamName);
+    }
+
+    [Fact]
+    public void Constructor_WithHttpClient_WhenApiKeyWhitespace_ThrowsArgumentException()
+    {
+        using HttpClient httpClient = new();
+
+        ArgumentException exception = Assert.Throws<ArgumentException>(() => new DnsCheckClient(httpClient, "   "));
+
+        Assert.Equal("apiKey", exception.ParamName);
+    }
 }

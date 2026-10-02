@@ -34,14 +34,14 @@ public sealed class RestClientTests
     }
 
     [Fact]
-    public void BuildRequestUri_WhitespaceApiKey_OmitsQueryParameter()
+    public void Constructor_WhitespaceApiKey_ThrowsArgumentException()
     {
         using HttpClient httpClient = new();
-        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), "   ");
 
-        Uri uri = rest.BuildRequestUri("groups/all");
+        ArgumentException exception = Assert.Throws<ArgumentException>(
+            () => new RestClient(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), "   "));
 
-        Assert.Equal("https://www.dnscheck.co/api/v1/groups/all", uri.AbsoluteUri);
+        Assert.Equal("apiKey", exception.ParamName);
     }
 
     [Fact]

@@ -21,6 +21,12 @@ internal sealed class RestClient
 
         _httpClient = httpClient;
         _baseAddress = baseAddress;
+
+        if (apiKey is not null && string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new ArgumentException("API key cannot be empty or whitespace.", nameof(apiKey));
+        }
+
         _apiKey = apiKey;
     }
 

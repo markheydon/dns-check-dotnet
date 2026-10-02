@@ -20,14 +20,14 @@ public sealed class DnsRecordService : IDnsRecordService
     /// <inheritdoc />
     public Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default)
     {
-        _ = _rest;
-        return ServiceAvailability.MonitoringNotImplemented<DnsRecord>();
+        ApiPathValidation.ValidateGroupUuid(groupUuid);
+        return ServiceAvailability.MonitoringNotImplemented<DnsRecord>(cancellationToken);
     }
 
     /// <inheritdoc />
     public Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default)
     {
-        _ = _rest;
-        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecord>>();
+        ApiPathValidation.ValidateGroupUuid(groupUuid);
+        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecord>>(cancellationToken);
     }
 }

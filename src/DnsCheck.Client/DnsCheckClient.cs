@@ -8,6 +8,12 @@ namespace DnsCheck.Client;
 /// <summary>
 /// Client for the DNS Check monitoring API.
 /// </summary>
+/// <remarks>
+/// When you supply an <see cref="HttpClient"/> via the constructor overload, this instance does not take ownership:
+/// it will not dispose that client. The caller must keep the <see cref="HttpClient"/> alive for the lifetime of
+/// this <see cref="DnsCheckClient"/> and dispose it when appropriate (for example after the client is disposed when
+/// you created the <see cref="HttpClient"/> yourself).
+/// </remarks>
 public sealed class DnsCheckClient : IDisposable
 {
     /// <summary>
@@ -35,7 +41,7 @@ public sealed class DnsCheckClient : IDisposable
     /// </summary>
     /// <param name="apiKey">DNS Check API key. Treat as a secret; the SDK never logs it.</param>
     public DnsCheckClient(string apiKey)
-        : this(CreateOwnedHttpClient(baseAddress: null), ownsHttpClient: true, apiKey, baseAddress: null)
+        : this(CreateOwnedHttpClient(baseAddress: null), ownsHttpClient: true, RequireApiKey(apiKey), baseAddress: null)
     {
     }
 
@@ -45,7 +51,7 @@ public sealed class DnsCheckClient : IDisposable
     /// <param name="apiKey">DNS Check API key. Treat as a secret; the SDK never logs it.</param>
     /// <param name="baseAddress">API base URL. A trailing slash is applied when missing.</param>
     public DnsCheckClient(string apiKey, Uri baseAddress)
-        : this(CreateOwnedHttpClient(baseAddress), ownsHttpClient: true, apiKey, baseAddress)
+        : this(CreateOwnedHttpClient(baseAddress), ownsHttpClient: true, RequireApiKey(apiKey), baseAddress)
     {
     }
 
@@ -53,9 +59,12 @@ public sealed class DnsCheckClient : IDisposable
     /// Creates a client that uses the supplied <see cref="HttpClient"/>.
     /// </summary>
     /// <param name="httpClient">HTTP client instance. The SDK does not mutate <see cref="HttpClient.DefaultRequestHeaders"/>.</param>
-    /// <param name="apiKey">Optional DNS Check API key.</param>
+    /// <param name="apiKey">Optional DNS Check API key. When provided, must not be empty or whitespace.</param>
+    /// <remarks>
+    /// This constructor does not dispose <paramref name="httpClient"/>; the caller retains ownership.
+    /// </remarks>
     public DnsCheckClient(HttpClient httpClient, string? apiKey = null)
-        : this(httpClient, ownsHttpClient: false, apiKey, baseAddress: null)
+        : this(httpClient, ownsHttpClient: false, NormalizeOptionalApiKey(apiKey), baseAddress: null)
     {
     }
 
@@ -95,6 +104,31 @@ public sealed class DnsCheckClient : IDisposable
         {
             _httpClient.Dispose();
         }
+    }
+
+    internal HttpClient TestHttpClient => _httpClient;
+
+    internal string? TestApiKey => ((GroupService)Groups).RestClient.ApiKey;
+
+    private static string RequireApiKey(string apiKey)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiKey);
+        return apiKey;
+    }
+
+    private static string? NormalizeOptionalApiKey(string? apiKey)
+    {
+        if (apiKey is null)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            throw new ArgumentException("API key cannot be empty or whitespace.", nameof(apiKey));
+        }
+
+        return apiKey;
     }
 
     private static Uri ResolveBaseAddress(HttpClient httpClient, Uri? baseAddress)

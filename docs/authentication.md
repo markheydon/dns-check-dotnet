@@ -10,6 +10,8 @@ Generate a key: [DNS Check — Generating an API Key](https://www.dnscheck.co/ap
 using var client = new DnsCheckClient(apiKey);
 ```
 
+The `DnsCheckClient(string apiKey)` constructor requires a non-empty API key. Use `new DnsCheckClient()` when you do not have a key (for example the public example group). Optional keys on the `HttpClient` overload must be `null` or a non-whitespace value.
+
 Treat the key as a secret. Do not commit it to source control.
 
 ## Environment variables (samples)

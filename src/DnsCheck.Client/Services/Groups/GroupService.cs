@@ -20,14 +20,13 @@ public sealed class GroupService : IGroupService
     /// <inheritdoc />
     public Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default)
     {
-        _ = _rest;
-        return ServiceAvailability.MonitoringNotImplemented<DnsRecordGroup>();
+        ApiPathValidation.ValidateGroupUuid(groupUuid);
+        return ServiceAvailability.MonitoringNotImplemented<DnsRecordGroup>(cancellationToken);
     }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
-    {
-        _ = _rest;
-        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>();
-    }
+    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default) =>
+        ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>(cancellationToken);
+
+    internal RestClient RestClient => _rest;
 }

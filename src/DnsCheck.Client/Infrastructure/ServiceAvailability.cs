@@ -6,6 +6,9 @@ internal static class ServiceAvailability
         "DNS Check monitoring API calls are not implemented in this package version. "
         + "See https://github.com/markheydon/dns-check-dotnet/blob/main/plan/IMPLEMENT_V1_API.md.";
 
-    internal static Task<T> MonitoringNotImplemented<T>() =>
-        Task.FromException<T>(new InvalidOperationException(MonitoringNotImplementedMessage));
+    internal static Task<T> MonitoringNotImplemented<T>(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return Task.FromException<T>(new InvalidOperationException(MonitoringNotImplementedMessage));
+    }
 }
