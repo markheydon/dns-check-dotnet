@@ -13,19 +13,26 @@ updates:
       - markheydon
     labels:
       - type/chore
-      - status/todo
+      - status/in-review
       - priority/medium
     groups:
-      patch-and-minor:
-        update-types:
-          - minor
-          - patch
       tests:
         patterns:
           - "^xunit"
           - "Microsoft\\.NET\\.Test\\.Sdk"
           - "^Microsoft\\.Testing"
           - "^coverlet"
+          - "^NSubstitute"
+        update-types:
+          - minor
+          - patch
+      microsoft-extensions:
+        patterns:
+          - "^Microsoft\\.Extensions\\."
+        update-types:
+          - minor
+          - patch
+      patch-and-minor:
         update-types:
           - minor
           - patch
@@ -42,7 +49,7 @@ updates:
       - markheydon
     labels:
       - type/chore
-      - status/todo
+      - status/in-review
       - priority/medium
     groups:
       patch-and-minor:

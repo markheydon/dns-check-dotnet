@@ -18,23 +18,27 @@ public sealed class GroupService : IGroupService
     }
 
     /// <inheritdoc />
-    public Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default) =>
-        RequestTasks.FromValidationThenStub<DnsRecordGroup>(
-            () => ApiPathValidation.ValidateGroupUuid(groupUuid),
+    public async Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ApiPathValidation.ValidateGroupUuid(groupUuid);
+        GroupResponse response = await _rest.GetAsync<GroupResponse>(
+            $"groups/{groupUuid}",
             cancellationToken);
+
+        return ApiResponseEnvelope.Require(response.Group, "group");
+    }
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default) =>
-        RequestTasks.FromValidationThenStub<IReadOnlyList<DnsRecordGroup>>(
-            () =>
-            {
-                cancellationToken.ThrowIfCancellationRequested();
+    public async Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        AccountScopedRequests.RequireApiKey(_rest);
 
-                if (string.IsNullOrWhiteSpace(_rest.ApiKey))
-                {
-                    throw new DnsCheckRequestException(
-                        "Listing all DNS record groups requires an API key. Use DnsCheckClient(string apiKey) or pass a key to the HttpClient constructor.");
-                }
-            },
+        GroupsListResponse response = await _rest.GetAsync<GroupsListResponse>(
+            $"groups/{DnsCheckGroups.All}",
             cancellationToken);
+
+        return ApiResponseEnvelope.RequireList(response.Groups, "groups");
+    }
 }

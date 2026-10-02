@@ -18,8 +18,9 @@ Official docs:
 | List all groups | `GET groups/all?api_key=` | `Groups.ListAllAsync(CancellationToken)` |
 | Get one record | `GET groups/{uuid}/{id}?api_key=` | `DnsRecords.GetAsync(string groupUuid, int recordId, CancellationToken)` |
 | List records in group | `GET groups/{uuid}/all?api_key=` | `DnsRecords.ListInGroupAsync(string groupUuid, CancellationToken)` |
+| List all records (account) | `GET groups/all` + `GET groups/{uuid}/all` per group | `DnsRecords.ListAllAsync(CancellationToken)` — `GET groups/all/all` returns 401 on typical keys |
 
-Path constants: `DnsCheckGroups.All`, `DnsCheckRecords.All` (list-in-group only; single get uses `int` record id).
+Path constants: `DnsCheckGroups.All`, `DnsCheckRecords.All` (list paths; single record get uses `int` record id).
 
 Example public group (no valid key required): `ea883d67-d9f6-45e3-b3a1-844dd1857824`.
 
@@ -30,11 +31,11 @@ Example public group (no valid key required): `ea883d67-d9f6-45e3-b3a1-844dd1857
 | Response | Root property | Notes |
 |----------|---------------|--------|
 | Single group | `group` | Per docs |
-| List groups | TBD | Call `groups/all` with API key; capture fixture on first implementation |
+| List groups | `groups` | Fixture in `groups-all.json` |
 | Single record | `dns_record` | Per docs |
 | List records | `dns_records` | Confirmed on example group `/all` |
 
-Missing required branch after deserialise → `DnsCheckApiException`.
+Missing required branch after deserialise → `DnsCheckParseException`.
 
 Errors: non-2xx body is often a JSON **string** (`"Unauthorized"`, `"Not found"`).
 
@@ -45,10 +46,10 @@ Errors: non-2xx body is often a JSON **string** (`"Unauthorized"`, `"Not found"`
 Populate `DnsRecordGroup` and `DnsRecord` with documented fields. Use `[JsonPropertyName]` on every property.
 
 - Timestamps: `DateTimeOffset` for `created_at`, `updated_at`
-- `DnsCheckStatus`: `pass`, `fail`, `unknown` (`JsonStringEnumMemberName`)
-- `DnsRecordType`: `A`, `AAAA`, `ALIAS`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `PTR`, `SOA`, `SPF`, `SRV`, `SVCB`, `TXT`
+- `DnsCheckStatus`: `pass`, `fail`, `unknown` (`DnsCheckStatusJsonConverter`)
+- `DnsRecordType`: `A`, `AAAA`, `ALIAS`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `PTR`, `SOA`, `SPF`, `SRV`, `SVCB`, `TXT` (`DnsRecordTypeJsonConverter`)
 
-Wrapper types: `GroupResponse`, `GroupsListResponse` (name TBD after `groups/all` probe), `DnsRecordResponse`, `DnsRecordsListResponse`.
+Wrapper types: `GroupResponse`, `GroupsListResponse`, `DnsRecordResponse`, `DnsRecordsListResponse`.
 
 ---
 
@@ -80,10 +81,11 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 ## Sample (`samples/MonitorConsole`)
 
-- Without key: example group get + list records
-- With `DNSCHECK_API_KEY`: optional `groups/all`
+- Interactive menu by default; `--run-all` for CI-style checks and dotnet test-style summary
+- Without key: example group get + list records (account-wide checks skipped)
+- With `DNSCHECK_API_KEY`: `Groups.ListAllAsync` and composite `DnsRecords.ListAllAsync` (`groups/all`, then `groups/{uuid}/all` per group)
 - Optional `DNSCHECK_GROUP_UUID`
-- Non-zero exit on failure
+- Non-zero exit on failure (`--run-all` when any check fails or none pass)
 
 ---
 
@@ -92,7 +94,7 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 Update:
 
 - `README.md` quick start
-- `docs/getting-started.md`, `docs/authentication.md`, `docs/api-coverage.md` (check all four operations)
+- `docs/getting-started.md`, `docs/authentication.md`, `docs/api-coverage.md` (check all five operations)
 
 ---
 

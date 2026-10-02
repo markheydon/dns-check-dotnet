@@ -2,16 +2,42 @@
 
 ## MonitorConsole
 
-Opt-in live smoke test for the DNS Check monitoring API. **Not run in CI.**
+Live smoke checks for the DNS Check monitoring API. Uses the **public example group** without an API key; account-wide checks are **skipped** unless `DNSCHECK_API_KEY` is set.
+
+### Quick run (interactive menu)
 
 ```bash
-export DNSCHECK_API_KEY='your-key'   # optional for public example group only
 dotnet run --project samples/MonitorConsole
 ```
 
+### CI-style run (dotnet test-style summary)
+
+```bash
+dotnet run --project samples/MonitorConsole -- --run-all
+```
+
+Use this mode locally or in automation you control. It prints green/red/yellow per check and a final **Passed!** / **Failed!** summary.
+
+Default GitHub Actions CI (`verify`, **Build & Test**) exercises the SDK with **mocked HTTP** in unit tests only. The optional **Console Sample Smoke** job runs `--run-all` against the live API when the `DNSCHECK_API_KEY` repository secret is configured ([setup](../../docs/contributing/ci-live-smoke.md)). Run `--run-all` without a key on your machine to smoke-test the public example group.
+
+### Environment
+
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `DNSCHECK_API_KEY` | No for example group | Account API key |
+| `DNSCHECK_API_KEY` | No for public group | Enables `Groups.ListAllAsync` and `DnsRecords.ListAllAsync` checks |
 | `DNSCHECK_GROUP_UUID` | No | Defaults to the documented public example group |
 
-Until the API is implemented, the sample prints a placeholder message and exits 0.
+The API key is never printed.
+
+### Understanding output
+
+- **Passed** (green) means the SDK call succeeded (HTTP + JSON), not that every DNS record is healthy.
+- **Fail** in monitoring status lines is **live data from DNS Check**. The public example group is documented to include failing checks on purpose.
+- **Skipped** (yellow) means a check was not run (for example account-wide lists without an API key).
+
+### Options
+
+| Flag | Description |
+|------|-------------|
+| `--run-all`, `-a` | Run all checks non-interactively |
+| `--help`, `-h` | Show usage |

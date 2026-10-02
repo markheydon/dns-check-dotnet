@@ -1,3 +1,7 @@
+using System.Net;
+using System.Text.Json;
+using DnsCheck.Client.Infrastructure.Serialization;
+
 namespace DnsCheck.Client.Infrastructure.Http;
 
 /// <summary>
@@ -6,7 +10,6 @@ namespace DnsCheck.Client.Infrastructure.Http;
 /// <remarks>
 /// <para>Request URIs are built from <see cref="BaseAddress"/>, not from <see cref="HttpClient.BaseAddress"/>,
 /// so injected <see cref="HttpClient"/> instances without a base address still target the resolved API URL.</para>
-/// <para>Response handling is implemented in a follow-up change. See <c>plan/IMPLEMENT_V1_API.md</c>.</para>
 /// </remarks>
 internal sealed class RestClient
 {
@@ -35,6 +38,29 @@ internal sealed class RestClient
     internal Uri BaseAddress => _baseAddress;
 
     internal string? ApiKey => _apiKey;
+
+    internal async Task<T> GetAsync<T>(string relativePath, CancellationToken cancellationToken = default)
+    {
+        Uri requestUri = BuildRequestUri(relativePath);
+        using HttpResponseMessage response = await _httpClient.GetAsync(requestUri, cancellationToken);
+        string body = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            string detail = ParseErrorDetail(body) ?? response.ReasonPhrase ?? "The DNS Check API returned an error.";
+            throw new DnsCheckApiException(response.StatusCode, detail);
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T>(body, DnsCheckJsonSerializerOptions.Default)
+                ?? throw new DnsCheckParseException("The API response body was empty or could not be deserialised.");
+        }
+        catch (JsonException ex)
+        {
+            throw new DnsCheckParseException("The API response body could not be deserialised.", ex);
+        }
+    }
 
     internal Uri BuildRequestUri(string relativePath, IReadOnlyList<RestQuery.QueryParameter>? queryParameters = null)
     {
@@ -69,5 +95,22 @@ internal sealed class RestClient
         }
 
         return requestUri;
+    }
+
+    private static string? ParseErrorDetail(string body)
+    {
+        if (string.IsNullOrWhiteSpace(body))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<string>(body);
+        }
+        catch (JsonException)
+        {
+            return body.Trim();
+        }
     }
 }

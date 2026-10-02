@@ -58,7 +58,8 @@ public sealed class ApiPathValidationTests
     [Fact]
     public async Task DnsRecords_ListInGroupAsync_WhenGroupUuidWhitespace_ThrowsDnsCheckRequestException()
     {
-        using DnsCheckClient client = new();
+        using HttpClient httpClient = new();
+        DnsCheckClient client = new(httpClient);
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
             () => client.DnsRecords.ListInGroupAsync("   ", TestContext.Current.CancellationToken));

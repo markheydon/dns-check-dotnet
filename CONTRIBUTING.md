@@ -29,6 +29,14 @@ Verify formatting:
 dotnet format DnsCheck.slnx --verify-no-changes
 ```
 
+Live API smoke (optional locally; GitHub Actions runs it on `main` pushes, schedule, or manual dispatch when `DNSCHECK_API_KEY` is configured):
+
+```bash
+dotnet run --project samples/MonitorConsole -- --run-all
+```
+
+To enable authenticated smoke in GitHub Actions, add the `DNSCHECK_API_KEY` repository secret. See [docs/contributing/ci-live-smoke.md](docs/contributing/ci-live-smoke.md).
+
 ## Pull Requests
 
 Follow [plan/PULL_REQUEST_POLICY.md](plan/PULL_REQUEST_POLICY.md) and [plan/LABEL_STRATEGY.md](plan/LABEL_STRATEGY.md).

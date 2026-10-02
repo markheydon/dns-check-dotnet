@@ -19,12 +19,13 @@ UK English in documentation, comments, and user-facing text.
 ## Tech Stack
 
 - .NET 8.0 and .NET 10.0 (primary focus on 10 for samples).
-- xUnit v3 with Microsoft.Testing.Platform.
+- xUnit v3 with Microsoft.Testing.Platform; NSubstitute when mocks are required; built-in asserts only (see `CONVENTIONS.md` — Testing).
 - API client only (no database).
 
 ## Architecture
 
 - SDK: `DnsCheckClient`, `Groups` and `DnsRecords` services, typed models, internal HTTP/JSON.
+- Register the client with `AddDnsCheckClient` and `IHttpClientFactory` per [ADR-0002](adr/adr-0002-typed-http-client-and-di.md).
 - GET-only v1 monitoring API per [ADR-0001](adr/adr-0001-read-only-monitoring-sdk.md).
 
 ## Sample Sync

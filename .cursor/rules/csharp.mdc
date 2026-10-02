@@ -12,6 +12,9 @@ Follow `CONVENTIONS.md` and `AGENTS.md` for architecture and naming.
 - Do not use `.Result`, `.Wait()`, or sync-over-async.
 - Add XML documentation to all public API members.
 - Use `JsonPropertyName` on every serialised/deserialised property in API models.
+- Prefer property-based `record` types for immutable API DTOs; use `class` for exceptions and services.
+- Register `DnsCheckClient` via `AddDnsCheckClient` / `AddHttpClient<DnsCheckClient>()`; do not construct `HttpClient` inside the library.
+- Libraries configure via extension methods and plain options types — not `IOptions<T>` on the public API (`IOptions<T>` is for hosted apps consuming the library).
 - Test classes: `[ClassName]Tests`. Test methods: `Method_State_Expected`.
 - GET-only v1 monitoring surface per ADR-0001; do not add write or undocumented DNS Check APIs.
 - Fail-fast client checks only for official, local API contract constraints documented by DNS Check.

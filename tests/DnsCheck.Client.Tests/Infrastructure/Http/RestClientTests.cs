@@ -1,6 +1,7 @@
 using System.Net;
 using DnsCheck.Client;
 using DnsCheck.Client.Infrastructure.Http;
+using DnsCheck.Client.Models.Groups;
 using DnsCheck.Client.Tests.TestSupport;
 
 namespace DnsCheck.Client.Tests.Infrastructure.Http;
@@ -87,5 +88,68 @@ public sealed class RestClientTests
         HttpRequestMessage sent = Assert.Single(handler.SentRequests);
         Assert.Equal(requestUri, sent.RequestUri);
         Assert.Equal("https://www.dnscheck.co/api/v1/groups/all", sent.RequestUri!.AbsoluteUri);
+    }
+
+    [Fact]
+    public async Task GetAsync_WhenSuccess_DeserialisesResponse()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("group-get.json"));
+
+        using HttpClient httpClient = new(handler);
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), apiKey: null);
+
+        GroupResponse response = await rest.GetAsync<GroupResponse>(
+            $"groups/ea883d67-d9f6-45e3-b3a1-844dd1857824",
+            TestContext.Current.CancellationToken);
+
+        Assert.NotNull(response.Group);
+        Assert.Equal("Example DNS Check", response.Group!.Name);
+    }
+
+    [Fact]
+    public async Task GetAsync_WhenUnauthorized_ThrowsDnsCheckApiException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.Unauthorized, "\"Unauthorized\"");
+
+        using HttpClient httpClient = new(handler);
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), apiKey: null);
+
+        DnsCheckApiException exception = await Assert.ThrowsAsync<DnsCheckApiException>(
+            () => rest.GetAsync<GroupResponse>("groups/all", TestContext.Current.CancellationToken));
+
+        Assert.Equal(HttpStatusCode.Unauthorized, exception.StatusCode);
+        Assert.Equal("Unauthorized", exception.Detail);
+    }
+
+    [Fact]
+    public async Task GetAsync_WhenBodyInvalidJson_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, "not-json");
+
+        using HttpClient httpClient = new(handler);
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), apiKey: null);
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => rest.GetAsync<GroupResponse>(
+                "groups/ea883d67-d9f6-45e3-b3a1-844dd1857824",
+                TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task GetAsync_WithApiKey_AppendsKeyToRequest()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
+
+        using HttpClient httpClient = new(handler);
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), "secret-key");
+
+        await rest.GetAsync<GroupsListResponse>("groups/all", TestContext.Current.CancellationToken);
+
+        HttpRequestMessage sent = Assert.Single(handler.SentRequests);
+        Assert.Contains("api_key=secret-key", sent.RequestUri!.Query, StringComparison.Ordinal);
     }
 }

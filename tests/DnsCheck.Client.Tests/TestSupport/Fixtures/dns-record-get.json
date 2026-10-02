@@ -1,0 +1,15 @@
+{
+  "dns_record": {
+    "created_at": "2016-01-23T16:46:29+00:00",
+    "updated_at": "2023-01-29T05:15:34+00:00",
+    "status": "pass",
+    "id": 5530,
+    "name": "www.dnscheck.co.",
+    "record_type": "ALIAS",
+    "value": "AAAA cdn.dnscheck.co.",
+    "exclusive": true,
+    "invert": false,
+    "fail_count": 0,
+    "url": "https://www.dnscheck.co/tests/ea883d67-d9f6-45e3-b3a1-844dd1857824/5530"
+  }
+}

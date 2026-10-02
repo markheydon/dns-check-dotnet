@@ -9,6 +9,9 @@ internal sealed class QueuedHttpMessageHandler : HttpMessageHandler
 
     internal IReadOnlyList<HttpRequestMessage> SentRequests => _sentRequests;
 
+    /// <summary>Invoked after each request is recorded, before the queued response is returned.</summary>
+    internal Action<HttpRequestMessage>? AfterRequestSent { get; set; }
+
     internal void Enqueue(HttpStatusCode statusCode, string content, string mediaType = "application/json")
     {
         Enqueue(statusCode, content, configureResponse: null, mediaType);
@@ -47,6 +50,7 @@ internal sealed class QueuedHttpMessageHandler : HttpMessageHandler
         }
 
         _sentRequests.Add(request);
+        AfterRequestSent?.Invoke(request);
 
         Func<HttpRequestMessage, HttpResponseMessage> responseFactory = _responses.Dequeue();
         return Task.FromResult(responseFactory(request));

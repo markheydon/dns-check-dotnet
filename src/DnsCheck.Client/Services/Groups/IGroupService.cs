@@ -14,9 +14,8 @@ public interface IGroupService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The requested group.</returns>
     /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
-    /// <exception cref="DnsCheckMonitoringNotImplementedException">
-    /// Thrown in prerelease package versions before monitoring API implementation is complete.
-    /// </exception>
+    /// <exception cref="DnsCheckApiException">Thrown when the API returns an error response.</exception>
+    /// <exception cref="DnsCheckParseException">Thrown when a successful response cannot be deserialised.</exception>
     Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -25,8 +24,7 @@ public interface IGroupService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>All groups visible to the API key.</returns>
     /// <exception cref="DnsCheckRequestException">Thrown when the client was constructed without an API key.</exception>
-    /// <exception cref="DnsCheckMonitoringNotImplementedException">
-    /// Thrown in prerelease package versions before monitoring API implementation is complete.
-    /// </exception>
+    /// <exception cref="DnsCheckApiException">Thrown when the API returns an error response.</exception>
+    /// <exception cref="DnsCheckParseException">Thrown when a successful response cannot be deserialised.</exception>
     Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default);
 }

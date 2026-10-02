@@ -13,7 +13,7 @@ Implement all four documented GET operations per [plan/IMPLEMENT_V1_API.md](../.
 2. Implement `RestClient.GetAsync` (auth query, errors, parse exceptions).
 3. Add models, enums, and response wrappers with `JsonPropertyName`.
 4. Replace `ServiceAvailability.MonitoringNotImplemented` in `GroupService` and `DnsRecordService` with live HTTP calls.
-5. Add unit tests with `QueuedHttpMessageHandler` and JSON fixtures.
+5. Add unit tests per `CONVENTIONS.md` (xUnit v3, built-in asserts; `QueuedHttpMessageHandler` and JSON fixtures for HTTP; NSubstitute only when mocks are needed).
 6. Implement `samples/MonitorConsole` live smoke (env: `DNSCHECK_API_KEY`, optional `DNSCHECK_GROUP_UUID`).
 7. Update `docs/` and `README.md`; tick `docs/api-coverage.md`.
 8. Run Release build, format, and test gates from [AGENTS.md](../../AGENTS.md).
