@@ -164,6 +164,31 @@ public sealed class MonitoringServiceTests
     }
 
     [Fact]
+    public async Task DnsRecords_ListAllAsync_WithMultipleGroups_MergesRecordsFromEachGroup()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all-two.json"));
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list.json"));
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list-empty.json"));
+
+        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+
+        IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken);
+
+        Assert.Equal(2, records.Count);
+        Assert.Equal(3, handler.SentRequests.Count);
+        Assert.Contains("/groups/all", handler.SentRequests[0].RequestUri!.AbsolutePath, StringComparison.Ordinal);
+        Assert.Contains(
+            "/groups/ea883d67-d9f6-45e3-b3a1-844dd1857824/all",
+            handler.SentRequests[1].RequestUri!.AbsolutePath,
+            StringComparison.Ordinal);
+        Assert.Contains(
+            "/groups/b1b18578-2444-4dd1-844d-d9f6ea883d67/all",
+            handler.SentRequests[2].RequestUri!.AbsolutePath,
+            StringComparison.Ordinal);
+    }
+
+    [Fact]
     public async Task DnsRecords_ListAllAsync_ReturnsRecords()
     {
         QueuedHttpMessageHandler handler = new();

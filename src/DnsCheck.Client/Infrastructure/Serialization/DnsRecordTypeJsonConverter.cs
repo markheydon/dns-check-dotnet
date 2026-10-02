@@ -4,6 +4,9 @@ using DnsCheck.Client.Models;
 
 namespace DnsCheck.Client.Infrastructure.Serialization;
 
+/// <summary>
+/// Maps DNS Check uppercase record type wire values. Unknown values fail deserialisation with <see cref="JsonException"/>.
+/// </summary>
 internal sealed class DnsRecordTypeJsonConverter : JsonConverter<DnsRecordType>
 {
     public override DnsRecordType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -4,6 +4,9 @@ using DnsCheck.Client.Models;
 
 namespace DnsCheck.Client.Infrastructure.Serialization;
 
+/// <summary>
+/// Maps DNS Check lowercase status wire values. Unknown values fail deserialisation with <see cref="JsonException"/>.
+/// </summary>
 internal sealed class DnsCheckStatusJsonConverter : JsonConverter<DnsCheckStatus>
 {
     public override DnsCheckStatus Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

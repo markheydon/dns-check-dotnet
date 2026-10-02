@@ -54,7 +54,8 @@ internal static class ApiPathValidation
         if (string.Equals(groupUuid, DnsCheckGroups.All, StringComparison.OrdinalIgnoreCase))
         {
             throw new DnsCheckRequestException(
-                "The path token 'all' is not a group UUID. Use IGroupService.ListAllAsync() to list all groups.");
+                "The path token 'all' is not a group UUID. "
+                + "Use IGroupService.ListAllAsync() or IDnsRecordService.ListAllAsync() for account-wide operations.");
         }
 
         if (!Guid.TryParse(groupUuid, out _))
