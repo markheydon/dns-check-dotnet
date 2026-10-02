@@ -8,6 +8,12 @@ public sealed class ApiPathValidationTests
     private const string ValidGroupUuid = "ea883d67-d9f6-45e3-b3a1-844dd1857824";
 
     [Fact]
+    public void ValidateRelativePath_SafePath_DoesNotThrow()
+    {
+        ApiPathValidation.ValidateRelativePath("groups/ea883d67-d9f6-45e3-b3a1-844dd1857824/all");
+    }
+
+    [Fact]
     public void ValidateGroupUuid_ValidGuid_DoesNotThrow()
     {
         ApiPathValidation.ValidateGroupUuid(ValidGroupUuid);

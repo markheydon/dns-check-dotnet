@@ -4,7 +4,7 @@ namespace DnsCheck.Client.Models.Groups;
 /// A DNS record group monitored by DNS Check.
 /// </summary>
 /// <remarks>
-/// Properties are populated in a future release when the groups API is implemented.
+/// Prerelease packages expose this type without properties until the groups API is implemented.
 /// See <c>plan/IMPLEMENT_V1_API.md</c> in the repository.
 /// </remarks>
 public sealed class DnsRecordGroup

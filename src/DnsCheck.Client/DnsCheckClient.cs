@@ -22,6 +22,7 @@ public sealed class DnsCheckClient : IDisposable
     public const string DefaultBaseUrl = "https://www.dnscheck.co/api/v1/";
 
     private readonly HttpClient _httpClient;
+    private readonly RestClient _rest;
     private readonly bool _ownsHttpClient;
 
     /// <summary>
@@ -82,9 +83,9 @@ public sealed class DnsCheckClient : IDisposable
             httpClient.BaseAddress = resolvedBase;
         }
 
-        RestClient rest = new(httpClient, resolvedBase, apiKey);
-        Groups = new GroupService(rest);
-        DnsRecords = new DnsRecordService(rest);
+        _rest = new RestClient(httpClient, resolvedBase, apiKey);
+        Groups = new GroupService(_rest);
+        DnsRecords = new DnsRecordService(_rest);
     }
 
     /// <summary>
@@ -108,7 +109,9 @@ public sealed class DnsCheckClient : IDisposable
 
     internal HttpClient TestHttpClient => _httpClient;
 
-    internal string? TestApiKey => ((GroupService)Groups).RestClient.ApiKey;
+    internal RestClient TestRestClient => _rest;
+
+    internal string? TestApiKey => _rest.ApiKey;
 
     private static string RequireApiKey(string apiKey)
     {

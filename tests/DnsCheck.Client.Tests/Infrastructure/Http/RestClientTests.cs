@@ -33,6 +33,18 @@ public sealed class RestClientTests
             uri.AbsoluteUri);
     }
 
+    [Theory]
+    [InlineData("../groups/all")]
+    [InlineData("/groups/all")]
+    [InlineData("https://evil.example/groups/all")]
+    public void BuildRequestUri_WhenRelativePathUnsafe_ThrowsDnsCheckRequestException(string relativePath)
+    {
+        using HttpClient httpClient = new();
+        RestClient rest = new(httpClient, new Uri(DnsCheckClient.DefaultBaseUrl), apiKey: null);
+
+        Assert.Throws<DnsCheckRequestException>(() => rest.BuildRequestUri(relativePath));
+    }
+
     [Fact]
     public void BuildRequestUri_WhenQueryIncludesApiKey_ThrowsDnsCheckRequestException()
     {

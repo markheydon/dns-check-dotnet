@@ -49,13 +49,15 @@ public sealed class MonitoringServiceTests
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
     }
 
-    [Fact]
-    public async Task DnsRecords_GetAsync_WhenRecordIdNotPositive_ThrowsDnsCheckRequestException()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public async Task DnsRecords_GetAsync_WhenRecordIdNotPositive_ThrowsDnsCheckRequestException(int recordId)
     {
         using DnsCheckClient client = new();
 
         await Assert.ThrowsAsync<DnsCheckRequestException>(
-            () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId: 0, TestContext.Current.CancellationToken));
+            () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -67,6 +69,28 @@ public sealed class MonitoringServiceTests
             () => client.DnsRecords.ListInGroupAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
+    }
+
+    [Fact]
+    public async Task DnsRecords_GetAsync_WhenCancelled_ThrowsOperationCanceledException()
+    {
+        using DnsCheckClient client = new();
+        using CancellationTokenSource cts = new();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId: 1, cts.Token));
+    }
+
+    [Fact]
+    public async Task DnsRecords_ListInGroupAsync_WhenCancelled_ThrowsOperationCanceledException()
+    {
+        using DnsCheckClient client = new();
+        using CancellationTokenSource cts = new();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => client.DnsRecords.ListInGroupAsync(ExampleGroupUuid, cts.Token));
     }
 
     [Fact]

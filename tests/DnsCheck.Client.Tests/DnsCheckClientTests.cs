@@ -1,5 +1,4 @@
 using DnsCheck.Client;
-using DnsCheck.Client.Services.Groups;
 using DnsCheck.Client.Tests.TestSupport;
 
 namespace DnsCheck.Client.Tests;
@@ -79,8 +78,7 @@ public sealed class DnsCheckClientTests
     {
         using DnsCheckClient client = new("test-api-key", new Uri("https://api.example.test/v1/"));
 
-        GroupService groups = (GroupService)client.Groups;
-        Uri uri = groups.RestClient.BuildRequestUri("groups/all");
+        Uri uri = client.TestRestClient.BuildRequestUri("groups/all");
 
         Assert.Equal("https://api.example.test/v1/groups/all?api_key=test-api-key", uri.AbsoluteUri);
     }

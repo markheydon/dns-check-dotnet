@@ -38,7 +38,7 @@ internal sealed class RestClient
 
     internal Uri BuildRequestUri(string relativePath, IReadOnlyList<RestQuery.QueryParameter>? queryParameters = null)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(relativePath);
+        ApiPathValidation.ValidateRelativePath(relativePath);
 
         List<RestQuery.QueryParameter> parameters = new((queryParameters?.Count ?? 0) + 1);
         if (!string.IsNullOrWhiteSpace(_apiKey))

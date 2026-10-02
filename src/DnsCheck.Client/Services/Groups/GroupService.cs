@@ -37,6 +37,4 @@ public sealed class GroupService : IGroupService
 
         return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>(cancellationToken);
     }
-
-    internal RestClient RestClient => _rest;
 }

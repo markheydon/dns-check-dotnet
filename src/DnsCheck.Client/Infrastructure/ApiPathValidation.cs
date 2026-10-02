@@ -5,6 +5,26 @@ namespace DnsCheck.Client.Infrastructure;
 /// </summary>
 internal static class ApiPathValidation
 {
+    internal static void ValidateRelativePath(string relativePath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(relativePath);
+
+        if (relativePath[0] is '/' or '\\')
+        {
+            throw new DnsCheckRequestException("Relative path must not start with a path separator.");
+        }
+
+        if (relativePath.Contains("..", StringComparison.Ordinal))
+        {
+            throw new DnsCheckRequestException("Relative path must not contain parent directory segments ('..').");
+        }
+
+        if (relativePath.Contains("://", StringComparison.Ordinal))
+        {
+            throw new DnsCheckRequestException("Relative path must not contain an absolute URI scheme.");
+        }
+    }
+
     internal static void ValidateGroupUuid(string groupUuid)
     {
         if (string.IsNullOrWhiteSpace(groupUuid))
