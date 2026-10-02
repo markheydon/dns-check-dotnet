@@ -46,8 +46,8 @@ Errors: non-2xx body is often a JSON **string** (`"Unauthorized"`, `"Not found"`
 Populate `DnsRecordGroup` and `DnsRecord` with documented fields. Use `[JsonPropertyName]` on every property.
 
 - Timestamps: `DateTimeOffset` for `created_at`, `updated_at`
-- `DnsCheckStatus`: `pass`, `fail`, `unknown` (`JsonStringEnumMemberName`)
-- `DnsRecordType`: `A`, `AAAA`, `ALIAS`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `PTR`, `SOA`, `SPF`, `SRV`, `SVCB`, `TXT`
+- `DnsCheckStatus`: `pass`, `fail`, `unknown` (`DnsCheckStatusJsonConverter`)
+- `DnsRecordType`: `A`, `AAAA`, `ALIAS`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `PTR`, `SOA`, `SPF`, `SRV`, `SVCB`, `TXT` (`DnsRecordTypeJsonConverter`)
 
 Wrapper types: `GroupResponse`, `GroupsListResponse`, `DnsRecordResponse`, `DnsRecordsListResponse`.
 

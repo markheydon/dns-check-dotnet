@@ -210,6 +210,32 @@ public sealed class MonitoringServiceTests
     }
 
     [Fact]
+    public async Task Groups_GetAsync_WhenStatusWireValueUnknown_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        string body = FixtureFiles.Read("group-get.json").Replace("\"fail\"", "\"pending\"", StringComparison.Ordinal);
+        handler.Enqueue(HttpStatusCode.OK, body);
+
+        using DnsCheckClient client = CreateClient(handler);
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task DnsRecords_GetAsync_WhenRecordTypeWireValueUnknown_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        string body = FixtureFiles.Read("dns-record-get.json").Replace("\"ALIAS\"", "\"NEWTYPE\"", StringComparison.Ordinal);
+        handler.Enqueue(HttpStatusCode.OK, body);
+
+        using DnsCheckClient client = CreateClient(handler);
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => client.DnsRecords.GetAsync(ExampleGroupUuid, 5530, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
     public async Task Groups_GetAsync_WhenNotFound_ThrowsDnsCheckApiException()
     {
         QueuedHttpMessageHandler handler = new();

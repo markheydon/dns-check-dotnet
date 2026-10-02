@@ -54,7 +54,7 @@ Place every **public** type in the `DnsCheck.Client` namespace at the project ro
 
 - `System.Text.Json` with case-insensitive property names for deserialisation.
 - `DateTimeOffset` for API timestamps (`created_at`, `updated_at`).
-- Enums with explicit wire values for `status` and `record_type` (see `plan/IMPLEMENT_V1_API.md`).
+- Enums with explicit wire values for `status` and `record_type` via internal `JsonConverter` types (see `plan/IMPLEMENT_V1_API.md`).
 
 ---
 

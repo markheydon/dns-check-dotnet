@@ -21,7 +21,7 @@ Use a **read-only monitoring** key if DNS Check offers restricted keys. The smok
    - **Value:** your DNS Check API key (no quotes)
 3. Re-run the **Console Sample Smoke** job on `main` (or wait for the next push).
 
-Forks, pull requests, and `main` without this secret skip authenticated smoke with a log message. Configure the secret on your fork if you want weekly schedule or manual runs to exercise the live API.
+Forks and `main` without this secret skip authenticated smoke with a log message. Pull requests never run this job (the secret is not exposed to PR head code). Configure the secret on your fork if you want weekly schedule or manual runs to exercise the live API.
 
 ## Local verification
 

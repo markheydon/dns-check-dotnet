@@ -44,6 +44,10 @@ internal sealed class MonitorRunReporter
             _results.Add(result);
             WriteLine(result);
         }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             stopwatch.Stop();

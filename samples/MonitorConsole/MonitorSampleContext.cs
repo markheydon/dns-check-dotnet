@@ -12,11 +12,12 @@ internal sealed class MonitorSampleContext : IDisposable
     internal const string ApiKeyEnvironmentVariable = "DNSCHECK_API_KEY";
     internal const string GroupUuidEnvironmentVariable = "DNSCHECK_GROUP_UUID";
 
-    internal MonitorSampleContext(DnsCheckClient client, string groupUuid, bool hasApiKey)
+    internal MonitorSampleContext(DnsCheckClient client, string groupUuid, bool hasApiKey, bool hasInvalidApiKey)
     {
         Client = client;
         GroupUuid = groupUuid;
         HasApiKey = hasApiKey;
+        HasInvalidApiKey = hasInvalidApiKey;
     }
 
     internal DnsCheckClient Client { get; }
@@ -25,26 +26,34 @@ internal sealed class MonitorSampleContext : IDisposable
 
     internal bool HasApiKey { get; }
 
+    internal bool HasInvalidApiKey { get; }
+
     internal int? LastRecordId { get; set; }
 
     internal static MonitorSampleContext Create()
     {
         string? apiKey = Environment.GetEnvironmentVariable(ApiKeyEnvironmentVariable);
         string groupUuid = Environment.GetEnvironmentVariable(GroupUuidEnvironmentVariable) ?? DefaultExampleGroupUuid;
+        bool hasInvalidApiKey = apiKey is not null && string.IsNullOrWhiteSpace(apiKey);
         bool hasApiKey = !string.IsNullOrWhiteSpace(apiKey);
 
         DnsCheckClient client = hasApiKey
             ? new DnsCheckClient(apiKey!)
             : new DnsCheckClient();
 
-        return new MonitorSampleContext(client, groupUuid, hasApiKey);
+        return new MonitorSampleContext(client, groupUuid, hasApiKey, hasInvalidApiKey);
     }
 
     internal void WriteBanner()
     {
         Console.WriteLine("DnsCheck.MonitorConsole");
         Console.WriteLine($"Group UUID: {GroupUuid}");
-        Console.WriteLine($"API key: {(HasApiKey ? "set (account-wide checks enabled)" : "not set (public example group only)")}");
+        string apiKeyLine = HasApiKey
+            ? "set (account-wide checks enabled)"
+            : HasInvalidApiKey
+                ? "invalid (whitespace only; treated as unset)"
+                : "not set (public example group only)";
+        Console.WriteLine($"API key: {apiKeyLine}");
         Console.WriteLine();
         Console.WriteLine(
             "Monitoring status Pass/Fail/Unknown is live data from DNS Check. "

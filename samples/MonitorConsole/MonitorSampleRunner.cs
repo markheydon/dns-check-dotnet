@@ -56,7 +56,7 @@ internal static class MonitorSampleRunner
             {
                 if (!context.HasApiKey)
                 {
-                    throw new MonitorCheckSkippedException($"{MonitorSampleContext.ApiKeyEnvironmentVariable} not set.");
+                    throw new MonitorCheckSkippedException(GetAccountApiKeySkipMessage(context));
                 }
 
                 IReadOnlyList<DnsRecordGroup> groups = await context.Client.Groups.ListAllAsync(ct);
@@ -70,7 +70,7 @@ internal static class MonitorSampleRunner
             {
                 if (!context.HasApiKey)
                 {
-                    throw new MonitorCheckSkippedException($"{MonitorSampleContext.ApiKeyEnvironmentVariable} not set.");
+                    throw new MonitorCheckSkippedException(GetAccountApiKeySkipMessage(context));
                 }
 
                 IReadOnlyList<DnsRecord> records = await context.Client.DnsRecords.ListAllAsync(ct);
@@ -181,8 +181,7 @@ internal static class MonitorSampleRunner
     {
         if (!context.HasApiKey)
         {
-            throw new DnsCheckRequestException(
-                $"Set {MonitorSampleContext.ApiKeyEnvironmentVariable} to list account groups.");
+            throw new DnsCheckRequestException(GetAccountApiKeyRequiredMessage(context));
         }
 
         IReadOnlyList<DnsRecordGroup> groups = await context.Client.Groups.ListAllAsync(cancellationToken);
@@ -202,8 +201,7 @@ internal static class MonitorSampleRunner
     {
         if (!context.HasApiKey)
         {
-            throw new DnsCheckRequestException(
-                $"Set {MonitorSampleContext.ApiKeyEnvironmentVariable} to list account records.");
+            throw new DnsCheckRequestException(GetAccountApiKeyRequiredMessage(context));
         }
 
         IReadOnlyList<DnsRecord> records = await context.Client.DnsRecords.ListAllAsync(cancellationToken);
@@ -213,6 +211,16 @@ internal static class MonitorSampleRunner
             MonitorSampleContext.WriteRecordDetail(record);
         }
     }
+
+    private static string GetAccountApiKeySkipMessage(MonitorSampleContext context) =>
+        context.HasInvalidApiKey
+            ? $"{MonitorSampleContext.ApiKeyEnvironmentVariable} is set but empty or whitespace."
+            : $"{MonitorSampleContext.ApiKeyEnvironmentVariable} not set.";
+
+    private static string GetAccountApiKeyRequiredMessage(MonitorSampleContext context) =>
+        context.HasInvalidApiKey
+            ? $"{MonitorSampleContext.ApiKeyEnvironmentVariable} is set but empty or whitespace."
+            : $"Set {MonitorSampleContext.ApiKeyEnvironmentVariable} to run account-wide checks.";
 
     private static int ReadRecordId()
     {
