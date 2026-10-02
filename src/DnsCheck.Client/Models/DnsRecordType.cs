@@ -1,12 +1,13 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
+using DnsCheck.Client.Infrastructure.Serialization;
 
 namespace DnsCheck.Client.Models;
 
 /// <summary>
 /// DNS record types supported by DNS Check monitoring.
 /// </summary>
-[JsonConverter(typeof(JsonStringEnumConverter<DnsRecordType>))]
+[JsonConverter(typeof(DnsRecordTypeJsonConverter))]
 [SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "Enum names match DNS Check API wire values.")]
 public enum DnsRecordType
 {

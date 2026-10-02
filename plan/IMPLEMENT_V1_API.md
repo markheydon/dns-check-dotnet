@@ -35,7 +35,7 @@ Example public group (no valid key required): `ea883d67-d9f6-45e3-b3a1-844dd1857
 | Single record | `dns_record` | Per docs |
 | List records | `dns_records` | Confirmed on example group `/all` |
 
-Missing required branch after deserialise → `DnsCheckApiException`.
+Missing required branch after deserialise → `DnsCheckParseException`.
 
 Errors: non-2xx body is often a JSON **string** (`"Unauthorized"`, `"Not found"`).
 

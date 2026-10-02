@@ -92,6 +92,34 @@ public sealed class MonitoringServiceTests
     }
 
     [Fact]
+    public async Task DnsRecords_ListInGroupAsync_WhenEnvelopeMissing_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, "{}");
+
+        using DnsCheckClient client = CreateClient(handler);
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => client.DnsRecords.ListInGroupAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task DnsRecords_ListAllAsync_WhenPerGroupCallFails_AbortsWithDnsCheckApiException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
+        handler.Enqueue(HttpStatusCode.NotFound, "\"Not found\"");
+
+        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+
+        DnsCheckApiException exception = await Assert.ThrowsAsync<DnsCheckApiException>(
+            () => client.DnsRecords.ListAllAsync(TestContext.Current.CancellationToken));
+
+        Assert.Equal(HttpStatusCode.NotFound, exception.StatusCode);
+        Assert.Equal(2, handler.SentRequests.Count);
+    }
+
+    [Fact]
     public async Task DnsRecords_GetAsync_WhenEnvelopeMissing_ThrowsDnsCheckParseException()
     {
         QueuedHttpMessageHandler handler = new();
