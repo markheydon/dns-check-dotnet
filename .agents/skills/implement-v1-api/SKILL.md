@@ -1,21 +1,21 @@
 ---
 name: implement-v1-api
-description: Implement the DNS Check v1 monitoring API end-to-end in DnsCheck.Client — models, RestClient, services, tests, MonitorConsole sample, and docs. Use when completing plan/IMPLEMENT_V1_API.md or adding monitoring GET operations.
+description: Extend the DNS Check monitoring API in DnsCheck.Client — models, RestClient, services, tests, MonitorConsole sample, and docs. Use when adding new documented monitoring GET operations or changing the v1 HTTP layer.
 ---
 
-# Implement DNS Check v1 API
+# Extend DNS Check monitoring API
 
-Implement all four documented GET operations per [plan/IMPLEMENT_V1_API.md](../../plan/IMPLEMENT_V1_API.md).
+Follow [plan/MONITORING_API_REFERENCE.md](../../plan/MONITORING_API_REFERENCE.md) for operations, JSON envelopes, and HTTP invariants.
 
 ## Steps
 
-1. Read official docs pages linked from the plan.
-2. Implement `RestClient.GetAsync` (auth query, errors, parse exceptions).
-3. Add models, enums, and response wrappers with `JsonPropertyName`.
-4. Replace `ServiceAvailability.MonitoringNotImplemented` in `GroupService` and `DnsRecordService` with live HTTP calls.
+1. Read official docs pages linked from the reference.
+2. Extend `RestClient` only if new cross-cutting HTTP behaviour is required (auth query, errors, parse exceptions).
+3. Add or update models, enums, and response wrappers with `JsonPropertyName`.
+4. Implement service methods on `GroupService` and/or `DnsRecordService`.
 5. Add unit tests per `CONVENTIONS.md` (xUnit v3, built-in asserts; `QueuedHttpMessageHandler` and JSON fixtures for HTTP; NSubstitute only when mocks are needed).
-6. Implement `samples/MonitorConsole` live smoke (env: `DNSCHECK_API_KEY`, optional `DNSCHECK_GROUP_UUID`).
-7. Update `docs/` and `README.md`; tick `docs/api-coverage.md`.
+6. Update `samples/MonitorConsole` when the new operation should appear in live smoke.
+7. Update `docs/` and `README.md`; update `docs/api-coverage.md`.
 8. Run Release build, format, and test gates from [AGENTS.md](../../AGENTS.md).
 
 ## Guardrails
@@ -26,4 +26,4 @@ Implement all four documented GET operations per [plan/IMPLEMENT_V1_API.md](../.
 
 ## Pull request
 
-Follow [plan/PULL_REQUEST_POLICY.md](../../plan/PULL_REQUEST_POLICY.md). Title example: `[Story] Implement DNS Check v1 monitoring API (#N)`.
+Follow [plan/PULL_REQUEST_POLICY.md](../../plan/PULL_REQUEST_POLICY.md). Title example: `[Story] Add DNS Check monitoring operation for … (#N)`.

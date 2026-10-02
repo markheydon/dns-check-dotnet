@@ -61,4 +61,4 @@ DEC-005: **Resilience** (retries, timeouts, circuit breaking) is configured by t
 ## References
 
 - [CONVENTIONS.md](../CONVENTIONS.md) — C# patterns and testing standards
-- [plan/IMPLEMENT_V1_API.md](../plan/IMPLEMENT_V1_API.md) — HTTP invariants (`RestClient`, no header mutation)
+- [plan/MONITORING_API_REFERENCE.md](../plan/MONITORING_API_REFERENCE.md) — HTTP invariants (`RestClient`, no header mutation)

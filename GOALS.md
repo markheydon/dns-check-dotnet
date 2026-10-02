@@ -54,4 +54,5 @@ This project is a strongly typed, unofficial client in the same spirit as [freea
 
 | Date | Change | Reason |
 |---|---|---|
+| 2 October 2026 | Stable 1.0.0 shipped | Monitoring GET API complete |
 | 2 October 2026 | Initial draft | Repository scaffold |

@@ -1,6 +1,6 @@
-# Implement DNS Check API v1
+# DNS Check monitoring API reference
 
-Runbook for completing the monitoring API in `DnsCheck.Client`. Use with `.agents/skills/implement-v1-api/SKILL.md`.
+Maintainer reference for the v1 monitoring surface in `DnsCheck.Client`. Shipped in **1.0.0**. For extending the SDK, use `.agents/skills/implement-v1-api/SKILL.md`.
 
 Official docs:
 
@@ -75,7 +75,7 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 - Fixtures under `tests/DnsCheck.Client.Tests/TestSupport/Fixtures/` from public example responses
 - `QueuedHttpMessageHandler`: assert path and `api_key` query parameter
-- No live API key in CI
+- Default CI uses mocked HTTP only; optional live smoke when `DNSCHECK_API_KEY` is configured (see [docs/contributing/ci-live-smoke.md](../docs/contributing/ci-live-smoke.md))
 
 ---
 
@@ -86,23 +86,3 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 - With `DNSCHECK_API_KEY`: `Groups.ListAllAsync` and composite `DnsRecords.ListAllAsync` (`groups/all`, then `groups/{uuid}/all` per group)
 - Optional `DNSCHECK_GROUP_UUID`
 - Non-zero exit on failure (`--run-all` when any check fails or none pass)
-
----
-
-## Docs
-
-Update:
-
-- `README.md` quick start
-- `docs/getting-started.md`, `docs/authentication.md`, `docs/api-coverage.md` (check all five operations)
-
----
-
-## PR2 checklist
-
-- [ ] `dotnet format DnsCheck.slnx --verify-no-changes`
-- [ ] `dotnet build DnsCheck.slnx -c Release -warnaserror`
-- [ ] `dotnet test DnsCheck.slnx -c Release --no-build`
-- [ ] Sample runs against example group
-- [ ] Bump package version per `VERSIONING.md`
-- [ ] No secrets in repo

@@ -11,12 +11,12 @@ Maintainer guide for publishing `DnsCheck.Client` to NuGet.org. Policy: [VERSION
 
 ## Publish steps
 
-1. Bump `<Version>` if needed.
+1. Bump `<Version>` and refresh `<PackageReleaseNotes>` in `DnsCheck.Client.csproj` if needed.
 2. Merge to `main`.
-3. Tag and push: `git tag v0.1.0-alpha.1 && git push origin v0.1.0-alpha.1`
+3. Tag and push, for example: `git tag v1.0.0 && git push origin v1.0.0`
 4. Monitor the Release workflow.
 5. Verify [nuget.org](https://www.nuget.org/packages/DnsCheck.Client) and GitHub Releases.
 
-## First public package
+## First stable release
 
-Prefer the first NuGet listing after the v1 monitoring API is implemented (four GET operations, tests, working console sample). Scaffold-only tags are optional for pipeline validation only.
+**1.0.0** covers all five documented monitoring operations (including composite `DnsRecords.ListAllAsync`). Earlier alpha tags were for pipeline and early-adopter validation only.

@@ -7,7 +7,7 @@ This project provides an unofficial .NET SDK for the [DNS Check monitoring API](
 ## Before You Start
 
 - Read [GOALS.md](GOALS.md), [SCOPE.md](SCOPE.md), [CONVENTIONS.md](CONVENTIONS.md), and [VERSIONING.md](VERSIONING.md).
-- Read [plan/IMPLEMENT_V1_API.md](plan/IMPLEMENT_V1_API.md) when adding API operations.
+- Read [plan/MONITORING_API_REFERENCE.md](plan/MONITORING_API_REFERENCE.md) when adding API operations.
 
 ## Development Setup
 

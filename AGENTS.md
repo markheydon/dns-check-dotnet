@@ -9,7 +9,7 @@ Read before non-trivial changes:
 - `GOALS.md`
 - `SCOPE.md`
 - `CONVENTIONS.md`
-- `plan/IMPLEMENT_V1_API.md` — API implementation runbook
+- `plan/MONITORING_API_REFERENCE.md` — monitoring API maintainer reference
 - `adr/` — accepted decisions
 
 ## Language
