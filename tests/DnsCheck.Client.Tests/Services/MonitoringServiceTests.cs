@@ -77,6 +77,45 @@ public sealed class MonitoringServiceTests
     }
 
     [Fact]
+    public async Task DnsRecords_ListInGroupAsync_WhenEmpty_ReturnsEmptyList()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list-empty.json"));
+
+        using DnsCheckClient client = CreateClient(handler);
+
+        IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(
+            ExampleGroupUuid,
+            TestContext.Current.CancellationToken);
+
+        Assert.Empty(records);
+    }
+
+    [Fact]
+    public async Task DnsRecords_GetAsync_WhenEnvelopeMissing_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, "{}");
+
+        using DnsCheckClient client = CreateClient(handler);
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => client.DnsRecords.GetAsync(ExampleGroupUuid, 5530, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task Groups_ListAllAsync_WhenEnvelopeMissing_ThrowsDnsCheckParseException()
+    {
+        QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, "{}");
+
+        using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
+
+        await Assert.ThrowsAsync<DnsCheckParseException>(
+            () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
     public async Task DnsRecords_ListInGroupAsync_ReturnsRecords()
     {
         QueuedHttpMessageHandler handler = new();

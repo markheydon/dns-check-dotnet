@@ -12,6 +12,8 @@ dotnet add package DnsCheck.Client
 
 ```csharp
 using DnsCheck.Client;
+using DnsCheck.Client.Models.DnsRecords;
+using DnsCheck.Client.Models.Groups;
 
 using var client = new DnsCheckClient("your-api-key");
 

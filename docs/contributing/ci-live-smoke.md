@@ -2,7 +2,7 @@
 
 The **Console Sample Smoke** job in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) runs `samples/MonitorConsole` with `--run-all` against the live DNS Check API using your account API key.
 
-Default CI (`verify`, `build-and-test`) uses mocked HTTP in unit tests only. Authenticated smoke is an extra signal that account-wide list operations work with a real key.
+Default CI (`verify`, `build-and-test`) uses mocked HTTP in unit tests only. Authenticated smoke is an extra signal that account-wide list operations work with a real key. The public example group (no API key) is not exercised in CI; run `dotnet run --project samples/MonitorConsole -- --run-all` locally without `DNSCHECK_API_KEY` when you want a live check of unauthenticated reads.
 
 ## What you need
 

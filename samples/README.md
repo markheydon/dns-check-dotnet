@@ -16,10 +16,9 @@ dotnet run --project samples/MonitorConsole
 dotnet run --project samples/MonitorConsole -- --run-all
 ```
 
-This mode is used in CI. It prints green/red/yellow per check and a final **Passed!** / **Failed!** summary.
+Use this mode locally or in automation you control. It prints green/red/yellow per check and a final **Passed!** / **Failed!** summary.
 
-- **Build & Test** job: runs `--run-all` without a key (public example group; account checks skipped).
-- **Console Sample Smoke** job: runs `--run-all` with the `DNSCHECK_API_KEY` repository secret when configured ([setup](../../docs/contributing/ci-live-smoke.md)).
+Default GitHub Actions CI (`verify`, **Build & Test**) exercises the SDK with **mocked HTTP** in unit tests only. The optional **Console Sample Smoke** job runs `--run-all` against the live API when the `DNSCHECK_API_KEY` repository secret is configured ([setup](../../docs/contributing/ci-live-smoke.md)). Run `--run-all` without a key on your machine to smoke-test the public example group.
 
 ### Environment
 

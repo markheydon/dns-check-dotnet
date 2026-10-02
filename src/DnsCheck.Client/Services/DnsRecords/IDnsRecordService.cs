@@ -35,7 +35,8 @@ public interface IDnsRecordService
     /// Lists all DNS records across every group for the authenticated account.
     /// </summary>
     /// <remarks>
-    /// Implemented by calling <c>GET groups/all</c> and then <c>GET groups/{uuid}/all</c> for each group.
+    /// Implemented by calling <c>GET groups/all</c> and then <c>GET groups/{uuid}/all</c> for each group, sequentially.
+    /// Large accounts may require many round trips; failures on any group abort the whole operation.
     /// DNS Check returns <c>401 Unauthorized</c> for <c>GET groups/all/all</c> on typical accounts.
     /// </remarks>
     /// <param name="cancellationToken">Cancellation token.</param>
