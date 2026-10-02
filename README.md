@@ -27,13 +27,15 @@ using DnsCheck.Client;
 using DnsCheck.Client.DependencyInjection;
 using DnsCheck.Client.Models.Groups;
 using DnsCheck.Client.Models.DnsRecords;
+using Microsoft.Extensions.DependencyInjection;
 
 const string exampleGroup = "ea883d67-d9f6-45e3-b3a1-844dd1857824";
 
-// In your host setup:
-builder.Services.AddDnsCheckClient(options => options.ApiKey = "your-api-key");
+ServiceCollection services = new();
+services.AddDnsCheckClient(options => options.ApiKey = "your-api-key");
 
-// Resolve from DI, then call the API:
+DnsCheckClient client = services.BuildServiceProvider().GetRequiredService<DnsCheckClient>();
+
 DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
 IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exampleGroup);
 ```
