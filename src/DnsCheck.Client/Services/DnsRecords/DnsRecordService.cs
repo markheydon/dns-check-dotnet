@@ -1,6 +1,7 @@
 using DnsCheck.Client.Infrastructure;
 using DnsCheck.Client.Infrastructure.Http;
 using DnsCheck.Client.Models.DnsRecords;
+using DnsCheck.Client.Models.Groups;
 
 namespace DnsCheck.Client.Services.DnsRecords;
 
@@ -56,10 +57,24 @@ public sealed class DnsRecordService : IDnsRecordService
         cancellationToken.ThrowIfCancellationRequested();
         AccountScopedRequests.RequireApiKey(_rest);
 
-        DnsRecordsListResponse response = await _rest.GetAsync<DnsRecordsListResponse>(
-            $"groups/{DnsCheckGroups.All}/{DnsCheckRecords.All}",
+        GroupsListResponse groupsResponse = await _rest.GetAsync<GroupsListResponse>(
+            $"groups/{DnsCheckGroups.All}",
             cancellationToken);
 
-        return ApiResponseEnvelope.RequireList(response.DnsRecords, "dns_records");
+        IReadOnlyList<DnsRecordGroup> groups = ApiResponseEnvelope.RequireList(groupsResponse.Groups, "groups");
+        if (groups.Count == 0)
+        {
+            return [];
+        }
+
+        List<DnsRecord> records = new();
+        foreach (DnsRecordGroup group in groups)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            IReadOnlyList<DnsRecord> groupRecords = await ListInGroupAsync(group.Uuid, cancellationToken);
+            records.AddRange(groupRecords);
+        }
+
+        return records;
     }
 }

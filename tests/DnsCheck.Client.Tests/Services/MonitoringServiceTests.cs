@@ -100,6 +100,7 @@ public sealed class MonitoringServiceTests
     public async Task DnsRecords_ListAllAsync_ReturnsRecords()
     {
         QueuedHttpMessageHandler handler = new();
+        handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("groups-all.json"));
         handler.Enqueue(HttpStatusCode.OK, FixtureFiles.Read("dns-records-list.json"));
 
         using DnsCheckClient client = CreateClient(handler, apiKey: "test-api-key");
@@ -108,9 +109,13 @@ public sealed class MonitoringServiceTests
 
         Assert.Equal(2, records.Count);
 
-        HttpRequestMessage request = Assert.Single(handler.SentRequests);
-        Assert.Contains("/groups/all/all", request.RequestUri!.AbsolutePath, StringComparison.Ordinal);
-        Assert.Contains("api_key=test-api-key", request.RequestUri!.Query, StringComparison.Ordinal);
+        Assert.Equal(2, handler.SentRequests.Count);
+        Assert.Contains("/groups/all", handler.SentRequests[0].RequestUri!.AbsolutePath, StringComparison.Ordinal);
+        Assert.Contains(
+            $"/groups/{ExampleGroupUuid}/all",
+            handler.SentRequests[1].RequestUri!.AbsolutePath,
+            StringComparison.Ordinal);
+        Assert.All(handler.SentRequests, r => Assert.Contains("api_key=test-api-key", r.RequestUri!.Query, StringComparison.Ordinal));
     }
 
     [Fact]

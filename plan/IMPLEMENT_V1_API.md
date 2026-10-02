@@ -18,7 +18,7 @@ Official docs:
 | List all groups | `GET groups/all?api_key=` | `Groups.ListAllAsync(CancellationToken)` |
 | Get one record | `GET groups/{uuid}/{id}?api_key=` | `DnsRecords.GetAsync(string groupUuid, int recordId, CancellationToken)` |
 | List records in group | `GET groups/{uuid}/all?api_key=` | `DnsRecords.ListInGroupAsync(string groupUuid, CancellationToken)` |
-| List all records (account) | `GET groups/all/all?api_key=` | `DnsRecords.ListAllAsync(CancellationToken)` |
+| List all records (account) | `GET groups/all` + `GET groups/{uuid}/all` per group | `DnsRecords.ListAllAsync(CancellationToken)` — `GET groups/all/all` returns 401 on typical keys |
 
 Path constants: `DnsCheckGroups.All`, `DnsCheckRecords.All` (list paths; single record get uses `int` record id).
 
