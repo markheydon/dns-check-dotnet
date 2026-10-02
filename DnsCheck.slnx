@@ -1,0 +1,16 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/DnsCheck.Client/DnsCheck.Client.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DnsCheck.Client.Tests/DnsCheck.Client.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/MonitorConsole/DnsCheck.MonitorConsole.csproj" />
+  </Folder>
+</Solution>
