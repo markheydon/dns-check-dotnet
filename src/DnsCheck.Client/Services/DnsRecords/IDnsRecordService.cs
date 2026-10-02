@@ -13,6 +13,10 @@ public interface IDnsRecordService
     /// <param name="groupUuid">The DNS record group UUID.</param>
     /// <param name="recordId">The DNS record ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The requested DNS record.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown in prerelease package versions before monitoring API implementation is complete.
+    /// </exception>
     Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -20,5 +24,9 @@ public interface IDnsRecordService
     /// </summary>
     /// <param name="groupUuid">The DNS record group UUID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>All DNS records in the group.</returns>
+    /// <exception cref="InvalidOperationException">
+    /// Thrown in prerelease package versions before monitoring API implementation is complete.
+    /// </exception>
     Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default);
 }

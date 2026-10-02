@@ -19,7 +19,7 @@ public sealed class DnsCheckApiException : DnsCheckHttpException
     }
 
     /// <summary>
-    /// Gets the API error detail message.
+    /// Gets the API error detail message returned by DNS Check (same value as <see cref="Exception.Message"/>).
     /// </summary>
     public string Detail { get; }
 }

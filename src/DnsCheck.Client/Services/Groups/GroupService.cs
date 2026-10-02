@@ -1,3 +1,4 @@
+using DnsCheck.Client.Infrastructure;
 using DnsCheck.Client.Infrastructure.Http;
 using DnsCheck.Client.Models.Groups;
 
@@ -20,13 +21,13 @@ public sealed class GroupService : IGroupService
     public Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default)
     {
         _ = _rest;
-        throw new NotImplementedException("Group monitoring API is not implemented yet. See plan/IMPLEMENT_V1_API.md.");
+        return ServiceAvailability.MonitoringNotImplemented<DnsRecordGroup>();
     }
 
     /// <inheritdoc />
     public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
     {
         _ = _rest;
-        throw new NotImplementedException("Group monitoring API is not implemented yet. See plan/IMPLEMENT_V1_API.md.");
+        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>();
     }
 }

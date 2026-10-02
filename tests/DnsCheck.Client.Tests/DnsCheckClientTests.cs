@@ -1,4 +1,5 @@
 using DnsCheck.Client;
+using DnsCheck.Client.Tests.TestSupport;
 
 namespace DnsCheck.Client.Tests;
 
@@ -42,5 +43,35 @@ public sealed class DnsCheckClientTests
         using DnsCheckClient client = new(httpClient);
 
         Assert.Null(httpClient.BaseAddress);
+    }
+
+    [Fact]
+    public void Constructor_Default_SetsOwnedHttpClientBaseAddress()
+    {
+        using DnsCheckClient client = new();
+
+        Uri? baseAddress = DnsCheckClientTestAccess.GetHttpClient(client).BaseAddress;
+
+        Assert.NotNull(baseAddress);
+        Assert.Equal(DnsCheckClient.DefaultBaseUrl, baseAddress!.AbsoluteUri);
+    }
+
+    [Fact]
+    public void Constructor_WithCustomBaseAddress_NormalizesTrailingSlashOnOwnedClient()
+    {
+        using DnsCheckClient client = new("test-api-key", new Uri("https://api.example.test/v1"));
+
+        Uri? baseAddress = DnsCheckClientTestAccess.GetHttpClient(client).BaseAddress;
+
+        Assert.NotNull(baseAddress);
+        Assert.Equal("https://api.example.test/v1/", baseAddress!.AbsoluteUri);
+    }
+
+    [Fact]
+    public void Constructor_WithApiKey_PassesKeyToRestClient()
+    {
+        using DnsCheckClient client = new("test-api-key");
+
+        Assert.Equal("test-api-key", DnsCheckClientTestAccess.GetApiKey(client));
     }
 }

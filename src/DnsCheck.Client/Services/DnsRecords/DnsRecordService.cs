@@ -1,3 +1,4 @@
+using DnsCheck.Client.Infrastructure;
 using DnsCheck.Client.Infrastructure.Http;
 using DnsCheck.Client.Models.DnsRecords;
 
@@ -20,13 +21,13 @@ public sealed class DnsRecordService : IDnsRecordService
     public Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default)
     {
         _ = _rest;
-        throw new NotImplementedException("DNS record monitoring API is not implemented yet. See plan/IMPLEMENT_V1_API.md.");
+        return ServiceAvailability.MonitoringNotImplemented<DnsRecord>();
     }
 
     /// <inheritdoc />
     public Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default)
     {
         _ = _rest;
-        throw new NotImplementedException("DNS record monitoring API is not implemented yet. See plan/IMPLEMENT_V1_API.md.");
+        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecord>>();
     }
 }

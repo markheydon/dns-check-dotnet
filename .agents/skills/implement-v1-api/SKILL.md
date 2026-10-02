@@ -12,7 +12,7 @@ Implement all four documented GET operations per [plan/IMPLEMENT_V1_API.md](../.
 1. Read official docs pages linked from the plan.
 2. Implement `RestClient.GetAsync` (auth query, errors, parse exceptions).
 3. Add models, enums, and response wrappers with `JsonPropertyName`.
-4. Replace `NotImplementedException` in `GroupService` and `DnsRecordService`.
+4. Replace `ServiceAvailability.MonitoringNotImplemented` in `GroupService` and `DnsRecordService` with live HTTP calls.
 5. Add unit tests with `QueuedHttpMessageHandler` and JSON fixtures.
 6. Implement `samples/MonitorConsole` live smoke (env: `DNSCHECK_API_KEY`, optional `DNSCHECK_GROUP_UUID`).
 7. Update `docs/` and `README.md`; tick `docs/api-coverage.md`.

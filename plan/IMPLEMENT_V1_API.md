@@ -55,6 +55,7 @@ Wrapper types: `GroupResponse`, `GroupsListResponse` (name TBD after `groups/all
 ## HTTP (`RestClient`)
 
 - Base: `https://www.dnscheck.co/api/v1/`
+- Build absolute request URIs with `RestClient.BuildRequestUri` (uses resolved base, not `HttpClient.BaseAddress`)
 - Append `api_key` via `RestQuery` when key is non-null/whitespace
 - `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions`
 - Map 401/404 (and other errors) to `DnsCheckApiException` with body text
