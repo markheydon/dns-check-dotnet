@@ -25,8 +25,8 @@ CI uses mocked HTTP only; it does not read these variables.
 
 ## Account-wide listing
 
-`Groups.ListAllAsync()` requires a client constructed with an API key. The parameterless `DnsCheckClient()` constructor is intended for the public example group and other unauthenticated reads documented by DNS Check.
+`Groups.ListAllAsync()` and `DnsRecords.ListAllAsync()` require a client constructed with an API key. The parameterless `DnsCheckClient()` constructor is intended for the public example group and other unauthenticated reads documented by DNS Check.
 
 ## Public example group
 
-Group UUID `ea883d67-d9f6-45e3-b3a1-844dd1857824` is documented as not requiring a valid API key for read access once monitoring GET operations are implemented in the SDK. Until then, all service methods throw `DnsCheckMonitoringNotImplementedException`.
+Group UUID `ea883d67-d9f6-45e3-b3a1-844dd1857824` is documented as not requiring a valid API key for read access to that group's monitoring data.

@@ -1,7 +1,5 @@
 # Getting started
 
-> **Prerelease.** The monitoring API is not fully implemented yet. See [api-coverage.md](api-coverage.md).
-
 ## Install
 
 ```bash
@@ -18,6 +16,17 @@ using var client = new DnsCheckClient("your-api-key");
 
 The public example DNS record group can be accessed without a valid API key. See [authentication.md](authentication.md).
 
-## Next steps
+## Example calls
 
-When v1 is complete, use `client.Groups` and `client.DnsRecords` for monitoring calls. See [plan/IMPLEMENT_V1_API.md](../plan/IMPLEMENT_V1_API.md).
+```csharp
+const string exampleGroup = "ea883d67-d9f6-45e3-b3a1-844dd1857824";
+
+DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
+IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exampleGroup);
+
+// Account-wide (API key required)
+IReadOnlyList<DnsRecordGroup> groups = await client.Groups.ListAllAsync();
+IReadOnlyList<DnsRecord> allRecords = await client.DnsRecords.ListAllAsync();
+```
+
+See [api-coverage.md](api-coverage.md) for the full operation list.

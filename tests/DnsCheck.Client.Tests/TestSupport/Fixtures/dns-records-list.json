@@ -1,0 +1,30 @@
+{
+  "dns_records": [
+    {
+      "created_at": "2016-01-23T16:46:29+00:00",
+      "updated_at": "2023-01-29T05:15:34+00:00",
+      "status": "pass",
+      "id": 5530,
+      "name": "www.dnscheck.co.",
+      "record_type": "ALIAS",
+      "value": "AAAA cdn.dnscheck.co.",
+      "exclusive": true,
+      "invert": false,
+      "fail_count": 0,
+      "url": "https://www.dnscheck.co/tests/ea883d67-d9f6-45e3-b3a1-844dd1857824/5530"
+    },
+    {
+      "created_at": "2015-04-17T20:46:28+00:00",
+      "updated_at": "2023-01-29T05:15:35+00:00",
+      "status": "pass",
+      "id": 9,
+      "name": "dnscheck.co.",
+      "record_type": "NS",
+      "value": "guy.ns.cloudflare.com.",
+      "exclusive": false,
+      "invert": false,
+      "fail_count": 0,
+      "url": "https://www.dnscheck.co/tests/ea883d67-d9f6-45e3-b3a1-844dd1857824/9"
+    }
+  ]
+}

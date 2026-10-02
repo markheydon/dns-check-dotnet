@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\src\DnsCheck.Client\DnsCheck.Client.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="TestSupport\Fixtures\**\*" CopyToOutputDirectory="PreserveNewest" Link="TestSupport\Fixtures\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
 </Project>

@@ -11,7 +11,7 @@ dotnet run --project samples/MonitorConsole
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `DNSCHECK_API_KEY` | No for example group | Account API key |
+| `DNSCHECK_API_KEY` | No for example group | Account API key (enables account-wide list calls) |
 | `DNSCHECK_GROUP_UUID` | No | Defaults to the documented public example group |
 
-Until the API is implemented, the sample prints a placeholder message and exits 0.
+Exits `0` on success and `1` when a `DnsCheckException` is thrown. The API key is never printed.

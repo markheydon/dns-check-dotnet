@@ -18,8 +18,9 @@ Official docs:
 | List all groups | `GET groups/all?api_key=` | `Groups.ListAllAsync(CancellationToken)` |
 | Get one record | `GET groups/{uuid}/{id}?api_key=` | `DnsRecords.GetAsync(string groupUuid, int recordId, CancellationToken)` |
 | List records in group | `GET groups/{uuid}/all?api_key=` | `DnsRecords.ListInGroupAsync(string groupUuid, CancellationToken)` |
+| List all records (account) | `GET groups/all/all?api_key=` | `DnsRecords.ListAllAsync(CancellationToken)` |
 
-Path constants: `DnsCheckGroups.All`, `DnsCheckRecords.All` (list-in-group only; single get uses `int` record id).
+Path constants: `DnsCheckGroups.All`, `DnsCheckRecords.All` (list paths; single record get uses `int` record id).
 
 Example public group (no valid key required): `ea883d67-d9f6-45e3-b3a1-844dd1857824`.
 
@@ -30,7 +31,7 @@ Example public group (no valid key required): `ea883d67-d9f6-45e3-b3a1-844dd1857
 | Response | Root property | Notes |
 |----------|---------------|--------|
 | Single group | `group` | Per docs |
-| List groups | TBD | Call `groups/all` with API key; capture fixture on first implementation |
+| List groups | `groups` | Fixture in `groups-all.json` |
 | Single record | `dns_record` | Per docs |
 | List records | `dns_records` | Confirmed on example group `/all` |
 
@@ -48,7 +49,7 @@ Populate `DnsRecordGroup` and `DnsRecord` with documented fields. Use `[JsonProp
 - `DnsCheckStatus`: `pass`, `fail`, `unknown` (`JsonStringEnumMemberName`)
 - `DnsRecordType`: `A`, `AAAA`, `ALIAS`, `CAA`, `CNAME`, `HTTPS`, `MX`, `NS`, `PTR`, `SOA`, `SPF`, `SRV`, `SVCB`, `TXT`
 
-Wrapper types: `GroupResponse`, `GroupsListResponse` (name TBD after `groups/all` probe), `DnsRecordResponse`, `DnsRecordsListResponse`.
+Wrapper types: `GroupResponse`, `GroupsListResponse`, `DnsRecordResponse`, `DnsRecordsListResponse`.
 
 ---
 
@@ -81,7 +82,7 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 ## Sample (`samples/MonitorConsole`)
 
 - Without key: example group get + list records
-- With `DNSCHECK_API_KEY`: optional `groups/all`
+- With `DNSCHECK_API_KEY`: `groups/all` and `groups/all/all`
 - Optional `DNSCHECK_GROUP_UUID`
 - Non-zero exit on failure
 
@@ -92,7 +93,7 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 Update:
 
 - `README.md` quick start
-- `docs/getting-started.md`, `docs/authentication.md`, `docs/api-coverage.md` (check all four operations)
+- `docs/getting-started.md`, `docs/authentication.md`, `docs/api-coverage.md` (check all five operations)
 
 ---
 
