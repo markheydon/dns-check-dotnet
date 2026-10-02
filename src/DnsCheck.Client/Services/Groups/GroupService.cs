@@ -27,6 +27,8 @@ public sealed class GroupService : IGroupService
     /// <inheritdoc />
     public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if (string.IsNullOrWhiteSpace(_rest.ApiKey))
         {
             throw new DnsCheckRequestException(

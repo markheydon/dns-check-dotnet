@@ -15,7 +15,8 @@ public interface IDnsRecordService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The requested DNS record.</returns>
     /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
-    /// <exception cref="InvalidOperationException">
+    /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="recordId"/> is not a positive integer.</exception>
+    /// <exception cref="DnsCheckMonitoringNotImplementedException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>
     Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default);
@@ -27,7 +28,7 @@ public interface IDnsRecordService
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>All DNS records in the group.</returns>
     /// <exception cref="DnsCheckRequestException">Thrown when <paramref name="groupUuid"/> is not a valid path segment.</exception>
-    /// <exception cref="InvalidOperationException">
+    /// <exception cref="DnsCheckMonitoringNotImplementedException">
     /// Thrown in prerelease package versions before monitoring API implementation is complete.
     /// </exception>
     Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default);

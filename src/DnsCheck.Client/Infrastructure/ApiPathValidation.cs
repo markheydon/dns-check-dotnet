@@ -20,6 +20,12 @@ internal static class ApiPathValidation
             throw new DnsCheckRequestException("Group UUID must not contain URL or path delimiter characters.");
         }
 
+        if (string.Equals(groupUuid, DnsCheckGroups.All, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new DnsCheckRequestException(
+                "The path token 'all' is not a group UUID. Use IGroupService.ListAllAsync() to list all groups.");
+        }
+
         if (!Guid.TryParse(groupUuid, out _))
         {
             throw new DnsCheckRequestException("Group UUID must be a valid GUID.");

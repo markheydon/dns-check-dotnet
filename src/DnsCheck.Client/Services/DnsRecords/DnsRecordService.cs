@@ -21,6 +21,12 @@ public sealed class DnsRecordService : IDnsRecordService
     public Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default)
     {
         ApiPathValidation.ValidateGroupUuid(groupUuid);
+
+        if (recordId <= 0)
+        {
+            throw new DnsCheckRequestException("DNS record ID must be a positive integer.");
+        }
+
         return ServiceAvailability.MonitoringNotImplemented<DnsRecord>(cancellationToken);
     }
 

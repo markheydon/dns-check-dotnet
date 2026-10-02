@@ -12,7 +12,7 @@ public sealed class MonitoringServiceTests
     {
         using DnsCheckClient client = new();
 
-        InvalidOperationException exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        DnsCheckMonitoringNotImplementedException exception = await Assert.ThrowsAsync<DnsCheckMonitoringNotImplementedException>(
             () => client.Groups.GetAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
@@ -23,7 +23,7 @@ public sealed class MonitoringServiceTests
     {
         using DnsCheckClient client = new("test-api-key");
 
-        InvalidOperationException exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        DnsCheckMonitoringNotImplementedException exception = await Assert.ThrowsAsync<DnsCheckMonitoringNotImplementedException>(
             () => client.Groups.ListAllAsync(TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
@@ -43,10 +43,19 @@ public sealed class MonitoringServiceTests
     {
         using DnsCheckClient client = new();
 
-        InvalidOperationException exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        DnsCheckMonitoringNotImplementedException exception = await Assert.ThrowsAsync<DnsCheckMonitoringNotImplementedException>(
             () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId: 1, TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
+    }
+
+    [Fact]
+    public async Task DnsRecords_GetAsync_WhenRecordIdNotPositive_ThrowsDnsCheckRequestException()
+    {
+        using DnsCheckClient client = new();
+
+        await Assert.ThrowsAsync<DnsCheckRequestException>(
+            () => client.DnsRecords.GetAsync(ExampleGroupUuid, recordId: 0, TestContext.Current.CancellationToken));
     }
 
     [Fact]
@@ -54,7 +63,7 @@ public sealed class MonitoringServiceTests
     {
         using DnsCheckClient client = new();
 
-        InvalidOperationException exception = await Assert.ThrowsAsync<InvalidOperationException>(
+        DnsCheckMonitoringNotImplementedException exception = await Assert.ThrowsAsync<DnsCheckMonitoringNotImplementedException>(
             () => client.DnsRecords.ListInGroupAsync(ExampleGroupUuid, TestContext.Current.CancellationToken));
 
         Assert.Equal(ServiceAvailability.MonitoringNotImplementedMessage, exception.Message);
@@ -72,7 +81,29 @@ public sealed class MonitoringServiceTests
     }
 
     [Fact]
-    public async Task Groups_GetAsync_InvalidGroupUuid_ThrowsArgumentException()
+    public async Task Groups_ListAllAsync_WhenCancelled_ThrowsOperationCanceledException()
+    {
+        using DnsCheckClient client = new("test-api-key");
+        using CancellationTokenSource cts = new();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => client.Groups.ListAllAsync(cts.Token));
+    }
+
+    [Fact]
+    public async Task Groups_ListAllAsync_WhenCancelledWithoutApiKey_ThrowsOperationCanceledException()
+    {
+        using DnsCheckClient client = new();
+        using CancellationTokenSource cts = new();
+        cts.Cancel();
+
+        await Assert.ThrowsAsync<OperationCanceledException>(
+            () => client.Groups.ListAllAsync(cts.Token));
+    }
+
+    [Fact]
+    public async Task Groups_GetAsync_InvalidGroupUuid_ThrowsDnsCheckRequestException()
     {
         using DnsCheckClient client = new();
 

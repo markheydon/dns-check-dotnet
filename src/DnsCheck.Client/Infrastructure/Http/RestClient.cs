@@ -64,9 +64,8 @@ internal sealed class RestClient
 
         if (!Uri.TryCreate(_baseAddress, pathAndQuery, out Uri? requestUri))
         {
-            throw new ArgumentException(
-                $"Could not combine base address '{_baseAddress}' with path '{pathAndQuery}'.",
-                nameof(relativePath));
+            throw new DnsCheckRequestException(
+                $"Could not combine base address '{_baseAddress}' with relative path '{relativePath}'.");
         }
 
         return requestUri;

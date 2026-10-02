@@ -9,6 +9,6 @@ internal static class ServiceAvailability
     internal static Task<T> MonitoringNotImplemented<T>(CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return Task.FromException<T>(new InvalidOperationException(MonitoringNotImplementedMessage));
+        return Task.FromException<T>(new DnsCheckMonitoringNotImplementedException(MonitoringNotImplementedMessage));
     }
 }

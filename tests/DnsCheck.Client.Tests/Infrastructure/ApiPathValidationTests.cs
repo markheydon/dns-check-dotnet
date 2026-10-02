@@ -24,12 +24,19 @@ public sealed class ApiPathValidationTests
         Assert.Contains("required", exception.Message, StringComparison.OrdinalIgnoreCase);
     }
 
-    [Theory]
-    [InlineData("not-a-guid")]
-    [InlineData("all")]
-    public void ValidateGroupUuid_WhenNotGuid_ThrowsDnsCheckRequestException(string groupUuid)
+    [Fact]
+    public void ValidateGroupUuid_WhenAll_ThrowsDnsCheckRequestExceptionWithListAllHint()
     {
-        Assert.Throws<DnsCheckRequestException>(() => ApiPathValidation.ValidateGroupUuid(groupUuid));
+        DnsCheckRequestException exception = Assert.Throws<DnsCheckRequestException>(
+            () => ApiPathValidation.ValidateGroupUuid("all"));
+
+        Assert.Contains("ListAllAsync", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void ValidateGroupUuid_WhenNotGuid_ThrowsDnsCheckRequestException()
+    {
+        Assert.Throws<DnsCheckRequestException>(() => ApiPathValidation.ValidateGroupUuid("not-a-guid"));
     }
 
     [Theory]

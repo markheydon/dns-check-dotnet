@@ -29,4 +29,4 @@ CI uses mocked HTTP only; it does not read these variables.
 
 ## Public example group
 
-Group UUID `ea883d67-d9f6-45e3-b3a1-844dd1857824` is documented as not requiring a valid API key for read access.
+Group UUID `ea883d67-d9f6-45e3-b3a1-844dd1857824` is documented as not requiring a valid API key for read access once monitoring GET operations are implemented in the SDK. Until then, all service methods throw `DnsCheckMonitoringNotImplementedException`.
