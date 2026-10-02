@@ -37,6 +37,8 @@ public sealed class RestClientTests
     [InlineData("../groups/all")]
     [InlineData("/groups/all")]
     [InlineData("https://evil.example/groups/all")]
+    [InlineData("groups/foo?extra=1")]
+    [InlineData("groups/%2e%2e/admin")]
     public void BuildRequestUri_WhenRelativePathUnsafe_ThrowsDnsCheckRequestException(string relativePath)
     {
         using HttpClient httpClient = new();

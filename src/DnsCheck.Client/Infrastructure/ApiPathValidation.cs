@@ -14,6 +14,17 @@ internal static class ApiPathValidation
             throw new DnsCheckRequestException("Relative path must not start with a path separator.");
         }
 
+        if (relativePath.Contains('?', StringComparison.Ordinal)
+            || relativePath.Contains('#', StringComparison.Ordinal))
+        {
+            throw new DnsCheckRequestException("Relative path must not contain query or fragment delimiters.");
+        }
+
+        if (relativePath.Contains('%', StringComparison.Ordinal))
+        {
+            throw new DnsCheckRequestException("Relative path must not contain percent-encoded segments.");
+        }
+
         if (relativePath.Contains("..", StringComparison.Ordinal))
         {
             throw new DnsCheckRequestException("Relative path must not contain parent directory segments ('..').");

@@ -18,23 +18,23 @@ public sealed class GroupService : IGroupService
     }
 
     /// <inheritdoc />
-    public Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default)
-    {
-        ApiPathValidation.ValidateGroupUuid(groupUuid);
-        return ServiceAvailability.MonitoringNotImplemented<DnsRecordGroup>(cancellationToken);
-    }
+    public Task<DnsRecordGroup> GetAsync(string groupUuid, CancellationToken cancellationToken = default) =>
+        RequestTasks.FromValidationThenStub<DnsRecordGroup>(
+            () => ApiPathValidation.ValidateGroupUuid(groupUuid),
+            cancellationToken);
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
+    public Task<IReadOnlyList<DnsRecordGroup>> ListAllAsync(CancellationToken cancellationToken = default) =>
+        RequestTasks.FromValidationThenStub<IReadOnlyList<DnsRecordGroup>>(
+            () =>
+            {
+                cancellationToken.ThrowIfCancellationRequested();
 
-        if (string.IsNullOrWhiteSpace(_rest.ApiKey))
-        {
-            throw new DnsCheckRequestException(
-                "Listing all DNS record groups requires an API key. Use DnsCheckClient(string apiKey) or pass a key to the HttpClient constructor.");
-        }
-
-        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecordGroup>>(cancellationToken);
-    }
+                if (string.IsNullOrWhiteSpace(_rest.ApiKey))
+                {
+                    throw new DnsCheckRequestException(
+                        "Listing all DNS record groups requires an API key. Use DnsCheckClient(string apiKey) or pass a key to the HttpClient constructor.");
+                }
+            },
+            cancellationToken);
 }

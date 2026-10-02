@@ -126,6 +126,30 @@ public sealed class MonitoringServiceTests
             () => client.Groups.ListAllAsync(cts.Token));
     }
 
+    [Theory]
+    [InlineData("all")]
+    [InlineData("ALL")]
+    public async Task Groups_GetAsync_WhenAll_ThrowsDnsCheckRequestException(string groupUuid)
+    {
+        using DnsCheckClient client = new();
+
+        DnsCheckRequestException exception = await Assert.ThrowsAsync<DnsCheckRequestException>(
+            () => client.Groups.GetAsync(groupUuid, TestContext.Current.CancellationToken));
+
+        Assert.Contains("ListAllAsync", exception.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task DnsRecords_ListInGroupAsync_WhenAll_ThrowsDnsCheckRequestException()
+    {
+        using DnsCheckClient client = new();
+
+        DnsCheckRequestException exception = await Assert.ThrowsAsync<DnsCheckRequestException>(
+            () => client.DnsRecords.ListInGroupAsync("all", TestContext.Current.CancellationToken));
+
+        Assert.Contains("ListAllAsync", exception.Message, StringComparison.Ordinal);
+    }
+
     [Fact]
     public async Task Groups_GetAsync_InvalidGroupUuid_ThrowsDnsCheckRequestException()
     {

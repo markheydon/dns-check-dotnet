@@ -14,7 +14,7 @@ This project provides an unofficial .NET SDK for the [DNS Check monitoring API](
 Requirements:
 
 - .NET 8.0 SDK (`net8.0` target).
-- .NET 10.0 SDK (primary for samples).
+- .NET 10.0 SDK (primary for samples). `global.json` pins `10.0.300` with `rollForward: latestPatch` within the 10.0.300 feature band.
 
 ```bash
 dotnet clean DnsCheck.slnx && \

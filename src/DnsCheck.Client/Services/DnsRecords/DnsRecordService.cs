@@ -18,22 +18,22 @@ public sealed class DnsRecordService : IDnsRecordService
     }
 
     /// <inheritdoc />
-    public Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default)
-    {
-        ApiPathValidation.ValidateGroupUuid(groupUuid);
+    public Task<DnsRecord> GetAsync(string groupUuid, int recordId, CancellationToken cancellationToken = default) =>
+        RequestTasks.FromValidationThenStub<DnsRecord>(
+            () =>
+            {
+                ApiPathValidation.ValidateGroupUuid(groupUuid);
 
-        if (recordId <= 0)
-        {
-            throw new DnsCheckRequestException("DNS record ID must be a positive integer.");
-        }
-
-        return ServiceAvailability.MonitoringNotImplemented<DnsRecord>(cancellationToken);
-    }
+                if (recordId <= 0)
+                {
+                    throw new DnsCheckRequestException("DNS record ID must be a positive integer.");
+                }
+            },
+            cancellationToken);
 
     /// <inheritdoc />
-    public Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default)
-    {
-        ApiPathValidation.ValidateGroupUuid(groupUuid);
-        return ServiceAvailability.MonitoringNotImplemented<IReadOnlyList<DnsRecord>>(cancellationToken);
-    }
+    public Task<IReadOnlyList<DnsRecord>> ListInGroupAsync(string groupUuid, CancellationToken cancellationToken = default) =>
+        RequestTasks.FromValidationThenStub<IReadOnlyList<DnsRecord>>(
+            () => ApiPathValidation.ValidateGroupUuid(groupUuid),
+            cancellationToken);
 }
