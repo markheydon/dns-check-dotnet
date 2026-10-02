@@ -83,7 +83,7 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 - Interactive menu by default; `--run-all` for CI-style checks and dotnet test-style summary
 - Without key: example group get + list records (account-wide checks skipped)
-- With `DNSCHECK_API_KEY`: `groups/all` and `groups/all/all`
+- With `DNSCHECK_API_KEY`: `Groups.ListAllAsync` and composite `DnsRecords.ListAllAsync` (`groups/all`, then `groups/{uuid}/all` per group)
 - Optional `DNSCHECK_GROUP_UUID`
 - Non-zero exit on failure (`--run-all` when any check fails or none pass)
 

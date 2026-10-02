@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace DnsCheck.Client.Infrastructure;
 
 /// <summary>
@@ -12,8 +10,7 @@ internal static class ApiResponseEnvelope
     {
         if (value is null)
         {
-            throw new DnsCheckApiException(
-                HttpStatusCode.OK,
+            throw new DnsCheckParseException(
                 $"The API response did not contain a required '{envelopePropertyName}' property.");
         }
 
@@ -24,11 +21,10 @@ internal static class ApiResponseEnvelope
     {
         if (value is null)
         {
-            throw new DnsCheckApiException(
-                HttpStatusCode.OK,
+            throw new DnsCheckParseException(
                 $"The API response did not contain a required '{envelopePropertyName}' property.");
         }
 
-        return value;
+        return value.ToList();
     }
 }

@@ -81,7 +81,7 @@ internal static class MonitorSampleRunner
         return reporter.WriteSummaryAndGetExitCode();
     }
 
-    internal static async Task RunInteractiveAsync(MonitorSampleContext context, CancellationToken cancellationToken)
+    internal static async Task<int> RunInteractiveAsync(MonitorSampleContext context, CancellationToken cancellationToken)
     {
         context.WriteBanner();
 
@@ -109,7 +109,7 @@ internal static class MonitorSampleRunner
                     case "q":
                     case "quit":
                     case "exit":
-                        return;
+                        return 0;
                     case "1":
                         await InteractiveGetGroupAsync(context, cancellationToken);
                         break;
@@ -126,8 +126,7 @@ internal static class MonitorSampleRunner
                         await InteractiveListAllRecordsAsync(context, cancellationToken);
                         break;
                     case "6":
-                        await RunAllAsync(context, cancellationToken);
-                        return;
+                        return await RunAllAsync(context, cancellationToken);
                     default:
                         Console.WriteLine("Unknown option.");
                         break;
@@ -140,6 +139,8 @@ internal static class MonitorSampleRunner
 
             Console.WriteLine();
         }
+
+        return 0;
     }
 
     private static async Task InteractiveGetGroupAsync(MonitorSampleContext context, CancellationToken cancellationToken)

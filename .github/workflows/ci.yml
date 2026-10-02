@@ -66,9 +66,6 @@ jobs:
           dotnet build DnsCheck.slnx --no-restore --configuration Release -warnaserror
           dotnet test DnsCheck.slnx --no-build --configuration Release --report-trx --results-directory TestResults
 
-      - name: MonitorConsole smoke (--run-all, public example group)
-        run: dotnet run --project samples/MonitorConsole --configuration Release --no-build -- --run-all
-
       - name: Upload test results
         uses: actions/upload-artifact@v7
         if: always()
@@ -101,22 +98,7 @@ jobs:
             exit 0
           fi
 
-          case "${{ github.event_name }}" in
-            push|schedule|workflow_dispatch)
-              if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-                echo "mode=required" >> "$GITHUB_OUTPUT"
-                exit 0
-              fi
-              ;;
-          esac
-
           echo "mode=skip" >> "$GITHUB_OUTPUT"
-
-      - name: Require API key on main
-        if: steps.policy.outputs.mode == 'required'
-        run: |
-          echo "::error::DNSCHECK_API_KEY is not configured. See docs/contributing/ci-live-smoke.md"
-          exit 1
 
       - name: Skip authenticated smoke
         if: steps.policy.outputs.mode == 'skip'

@@ -2,7 +2,7 @@
 
 The **Console Sample Smoke** job in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) runs `samples/MonitorConsole` with `--run-all` against the live DNS Check API using your account API key.
 
-Default CI (`verify`, `build-and-test`) still uses mocked HTTP in unit tests. The build job also runs MonitorConsole **without** a key (public example group only; account checks are skipped). Authenticated smoke is an extra signal that account-wide list operations work with a real key.
+Default CI (`verify`, `build-and-test`) uses mocked HTTP in unit tests only. Authenticated smoke is an extra signal that account-wide list operations work with a real key.
 
 ## What you need
 
@@ -21,7 +21,7 @@ Use a **read-only monitoring** key if DNS Check offers restricted keys. The smok
    - **Value:** your DNS Check API key (no quotes)
 3. Re-run the **Console Sample Smoke** job on `main` (or wait for the next push).
 
-Forks and pull requests from contributors without this secret skip authenticated smoke. Pushes to `main` without the secret fail the smoke job with a link to this page.
+Forks, pull requests, and `main` without this secret skip authenticated smoke with a log message. Configure the secret on your fork if you want weekly schedule or manual runs to exercise the live API.
 
 ## Local verification
 

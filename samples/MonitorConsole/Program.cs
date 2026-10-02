@@ -33,8 +33,7 @@ try
         return await MonitorSampleRunner.RunAllAsync(context, cancellation.Token);
     }
 
-    await MonitorSampleRunner.RunInteractiveAsync(context, cancellation.Token);
-    return 0;
+    return await MonitorSampleRunner.RunInteractiveAsync(context, cancellation.Token);
 }
 catch (OperationCanceledException)
 {
