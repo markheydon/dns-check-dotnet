@@ -62,6 +62,9 @@ jobs:
           dotnet build DnsCheck.slnx --no-restore --configuration Release -warnaserror
           dotnet test DnsCheck.slnx --no-build --configuration Release --report-trx --results-directory TestResults
 
+      - name: MonitorConsole smoke (--run-all, public example group)
+        run: dotnet run --project samples/MonitorConsole --configuration Release --no-build -- --run-all
+
       - name: Upload test results
         uses: actions/upload-artifact@v7
         if: always()

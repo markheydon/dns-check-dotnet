@@ -81,10 +81,11 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 ## Sample (`samples/MonitorConsole`)
 
-- Without key: example group get + list records
+- Interactive menu by default; `--run-all` for CI-style checks and dotnet test-style summary
+- Without key: example group get + list records (account-wide checks skipped)
 - With `DNSCHECK_API_KEY`: `groups/all` and `groups/all/all`
 - Optional `DNSCHECK_GROUP_UUID`
-- Non-zero exit on failure
+- Non-zero exit on failure (`--run-all` when any check fails or none pass)
 
 ---
 
