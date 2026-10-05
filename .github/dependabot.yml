@@ -18,21 +18,44 @@ updates:
     groups:
       tests:
         patterns:
-          - "^xunit"
-          - "Microsoft\\.NET\\.Test\\.Sdk"
-          - "^Microsoft\\.Testing"
-          - "^coverlet"
-          - "^NSubstitute"
+          - xunit*
+          - Microsoft.NET.Test.Sdk
+          - Microsoft.Testing.*
+          - coverlet*
+          - NSubstitute*
         update-types:
           - minor
           - patch
       microsoft-extensions:
         patterns:
-          - "^Microsoft\\.Extensions\\."
+          - Microsoft.Extensions.*
         update-types:
           - minor
           - patch
-      patch-and-minor:
+      azure:
+        patterns:
+          - Azure.*
+          - Microsoft.Azure.*
+          - Aspire.*
+        update-types:
+          - minor
+          - patch
+      opentelemetry:
+        patterns:
+          - OpenTelemetry.*
+        update-types:
+          - minor
+          - patch
+      analyzers:
+        patterns:
+          - "*Analyzers*"
+          - Microsoft.CodeAnalysis.*
+        update-types:
+          - minor
+          - patch
+      other:
+        patterns:
+          - "*"
         update-types:
           - minor
           - patch
@@ -52,7 +75,10 @@ updates:
       - status/in-review
       - priority/medium
     groups:
-      patch-and-minor:
+      github-actions:
+        patterns:
+          - "*"
         update-types:
+          - major
           - minor
           - patch
