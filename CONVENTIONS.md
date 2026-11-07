@@ -34,6 +34,7 @@ tests/
     └── TestSupport/
 
 samples/
+├── FileBasedProducts/
 └── MonitorConsole/
 ```
 
@@ -68,6 +69,8 @@ Place every **public** type in the `DnsCheck.Client` namespace at the project ro
 ## JSON and Types
 
 - `System.Text.Json` with case-insensitive property names for deserialisation.
+- Monitoring REST envelopes deserialise through `DnsCheckJsonSerializerOptions` with a combined `TypeInfoResolver` (`DnsCheckJsonContext` source generation plus `DefaultJsonTypeInfoResolver` for error bodies and fallback).
+- Register every type passed to `RestClient.GetAsync<T>` on `DnsCheckJsonContext` when adding models or envelopes.
 - `DateTimeOffset` for API timestamps (`created_at`, `updated_at`).
 - Enums with explicit wire values for `status` and `record_type` via internal `JsonConverter` types (see `plan/MONITORING_API_REFERENCE.md`).
 
@@ -96,7 +99,7 @@ Do not introduce:
 - **.NET Aspire AppHost** modelling and orchestration are not tested in this repository.
 - **Playwright (C#)** — add only if the product gains UI or hosted-app journeys that need end-to-end coverage; do not use Playwright as a substitute for unit tests.
 
-Optional local live smoke: `samples/MonitorConsole` and `DNSCHECK_API_KEY`.
+CI runs `samples/FileBasedProducts/GetExampleGroup.cs` against the live public example group (no API key). Optional local or scheduled authenticated smoke: `samples/MonitorConsole` and `DNSCHECK_API_KEY` (see [docs/contributing/ci-live-smoke.md](docs/contributing/ci-live-smoke.md)).
 
 ---
 
@@ -104,3 +107,4 @@ Optional local live smoke: `samples/MonitorConsole` and `DNSCHECK_API_KEY`.
 
 - UK English in comments and docs.
 - Update `docs/api-coverage.md` when adding SDK operations.
+- When consumer quick-start or trimming/file-based behaviour changes, update `docs/getting-started.md`, `samples/README.md`, and `samples/FileBasedProducts` as needed.

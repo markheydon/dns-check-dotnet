@@ -75,11 +75,20 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 - Fixtures under `tests/DnsCheck.Client.Tests/TestSupport/Fixtures/` from public example responses
 - `QueuedHttpMessageHandler`: assert path and `api_key` query parameter
-- Default CI uses mocked HTTP only; optional live smoke when `DNSCHECK_API_KEY` is configured (see [docs/contributing/ci-live-smoke.md](../docs/contributing/ci-live-smoke.md))
+- Default CI: mocked HTTP in unit tests; **Build & Test** also runs `samples/FileBasedProducts/GetExampleGroup.cs` against the live public example group (no API key)
+- Optional **Console Sample Smoke** when `DNSCHECK_API_KEY` is configured (see [docs/contributing/ci-live-smoke.md](../docs/contributing/ci-live-smoke.md))
 
 ---
 
-## Sample (`samples/MonitorConsole`)
+## Samples
+
+### `samples/FileBasedProducts`
+
+- Single `.cs` file with `#:project` (CI) or `#:package DnsCheck.Client@<version>` (consumers)
+- Fetches the public example group; run: `dotnet run samples/FileBasedProducts/GetExampleGroup.cs`
+- Validates source-generated JSON without `JsonSerializerIsReflectionEnabledByDefault`
+
+### `samples/MonitorConsole`
 
 - Interactive menu by default; `--run-all` for CI-style checks and dotnet test-style summary
 - Without key: example group get + list records (account-wide checks skipped)

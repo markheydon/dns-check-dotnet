@@ -43,7 +43,7 @@ DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
 IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exampleGroup);
 ```
 
-Omit `ApiKey` in `AddDnsCheckClient` for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). See [Getting started](docs/getting-started.md) for registration and test `HttpClient` patterns.
+Omit `ApiKey` in `AddDnsCheckClient` for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). See [Getting started](docs/getting-started.md) for registration, test `HttpClient` patterns, and .NET 10+ file-based apps (`#:package`).
 
 ## Building from source
 
@@ -72,4 +72,4 @@ MIT — see [LICENSE](LICENSE).
 ## Resources
 
 - [DNS Check API documentation](https://www.dnscheck.co/api)
-- [Console sample](samples/README.md)
+- [Samples](samples/README.md) — MonitorConsole live checks and FileBasedProducts quick start
