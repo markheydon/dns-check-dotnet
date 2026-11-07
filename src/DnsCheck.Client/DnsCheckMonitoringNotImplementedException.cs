@@ -4,7 +4,7 @@ namespace DnsCheck.Client;
 /// Legacy exception type from early package versions. v1 monitoring operations are implemented; this type is never thrown.
 /// Catch <see cref="DnsCheckApiException"/>, <see cref="DnsCheckRequestException"/>, or <see cref="DnsCheckParseException"/> instead.
 /// </summary>
-[Obsolete("DnsCheckMonitoringNotImplementedException is legacy-only and will be removed in 2.0.0. Catch DnsCheckApiException, DnsCheckRequestException, or DnsCheckParseException instead.")]
+[Obsolete("DnsCheckMonitoringNotImplementedException is legacy-only and will be removed. Catch DnsCheckApiException, DnsCheckRequestException, or DnsCheckParseException instead.")]
 public sealed class DnsCheckMonitoringNotImplementedException : DnsCheckException
 {
     /// <summary>
