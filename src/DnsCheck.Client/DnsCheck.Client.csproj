@@ -5,10 +5,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
     <PackageId>DnsCheck.Client</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Mark Heydon</Authors>
     <Description>Unofficial .NET client for the DNS Check monitoring API. Not affiliated with DNS Check or Wind Serve, LLC.</Description>
-    <PackageReleaseNotes>Package metadata: project website points at consumer docs; expanded NuGet readme.</PackageReleaseNotes>
+    <PackageReleaseNotes>Trim- and file-based-app safe REST JSON via System.Text.Json source generation (no JsonSerializerIsReflectionEnabledByDefault workaround).</PackageReleaseNotes>
     <PackageProjectUrl>https://markheydon.me.uk/dns-check-dotnet/</PackageProjectUrl>
     <RepositoryUrl>https://github.com/markheydon/dns-check-dotnet</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

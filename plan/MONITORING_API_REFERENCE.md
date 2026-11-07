@@ -62,7 +62,7 @@ Wrapper types: `GroupResponse`, `GroupsListResponse`, `DnsRecordResponse`, `DnsR
 - Do not pass `api_key` in caller-supplied query parameters; `RestClient` rejects duplicates
 - Fail-fast positive integer `recordId` on `DnsRecords.GetAsync` (see `DnsRecordService`)
 - Relative paths passed to `RestClient.BuildRequestUri` must pass `ApiPathValidation.ValidateRelativePath` (no `..`, `%`, `?`, `#`, leading `/`, or absolute URI schemes)
-- `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions`
+- `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions` (`TypeInfoResolver` combines `DnsCheckJsonContext` source generation with a default resolver for error bodies and fallback)
 - Map 401/404 (and other errors) to `DnsCheckApiException` with body text
 - Do not mutate injected `HttpClient.DefaultRequestHeaders`
 - No pagination or retry in v1

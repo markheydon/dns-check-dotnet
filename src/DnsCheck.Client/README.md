@@ -30,6 +30,8 @@ IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exam
 
 Omit `ApiKey` when using DNS Check's [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). Account-wide listing requires a key from [Generating an API Key](https://www.dnscheck.co/api/generate-key).
 
+File-based apps (`.NET 10+`, `#:package` in a single `.cs` file) and hosts with reflection-based JSON disabled work without `JsonSerializerIsReflectionEnabledByDefault`. Monitoring REST responses use source-generated `System.Text.Json` metadata. This does not guarantee full Native AOT compatibility for every consumer hosting pattern.
+
 ## Documentation
 
 Getting started, authentication, and API coverage: [markheydon.me.uk/dns-check-dotnet](https://markheydon.me.uk/dns-check-dotnet/).

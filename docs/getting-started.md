@@ -26,6 +26,26 @@ builder.Services.AddDnsCheckClient(options =>
 
 For console tools, build a small `ServiceCollection`, call `AddDnsCheckClient`, and resolve `DnsCheckClient` from the provider. See [`samples/MonitorConsole`](../samples/README.md).
 
+## File-based apps (.NET 10+)
+
+You can run a minimal quick start from a single `.cs` file with `#:package` (no `.csproj`). The client uses source-generated JSON metadata for monitoring API responses, so you do not need `JsonSerializerIsReflectionEnabledByDefault=true`.
+
+```csharp
+#:package DnsCheck.Client@1.0.2
+
+using DnsCheck.Client;
+using DnsCheck.Client.Models.Groups;
+
+using var httpClient = new HttpClient();
+DnsCheckClient client = new(httpClient, apiKey: null);
+
+const string exampleGroup = "ea883d67-d9f6-45e3-b3a1-844dd1857824";
+
+DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
+```
+
+See [`samples/FileBasedProducts`](../samples/README.md) for the repository CI smoke script.
+
 ### Tests and advanced scenarios
 
 Inject a test `HttpClient` (for example with `QueuedHttpMessageHandler`):

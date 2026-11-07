@@ -1,5 +1,15 @@
 # Samples
 
+## File-based products (.NET 10+)
+
+Smoke-tests the readme-style quick start in a [file-based app](https://learn.microsoft.com/en-us/dotnet/core/sdk/file-based-apps) with reflection-based JSON disabled by default. CI references the client via `#:project`; after installing from NuGet, use `#:package DnsCheck.Client@<version>` instead (no `JsonSerializerIsReflectionEnabledByDefault` workaround).
+
+```bash
+dotnet run samples/FileBasedProducts/GetExampleGroup.cs
+```
+
+The script fetches the public example group and prints its name. It calls the live DNS Check API (no API key).
+
 ## MonitorConsole
 
 Live smoke checks for the DNS Check monitoring API. Uses the **public example group** without an API key; account-wide checks are **skipped** unless `DNSCHECK_API_KEY` is set.
