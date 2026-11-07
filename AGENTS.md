@@ -42,7 +42,8 @@ Project skills live in `.agents/skills/`.
 | `create-architectural-decision-record` | Creating or major-updating an ADR |
 | `documentation-writer` | Diátaxis-aligned documentation |
 | `project-documentation` | Project-aware docs placement |
-| `pr-address-review` | Addressing open PR review threads |
+| `code-review` | Reviewing code changes before merge |
+| `goals-review` | Auditing alignment with project goals and scope |
 
 ## Task Routing
 
