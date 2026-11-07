@@ -30,7 +30,7 @@ UK English in documentation, comments, and user-facing text.
 
 ## Sample Sync
 
-[`samples/MonitorConsole`](samples/README.md) must reflect **implemented** SDK behaviour only. Update it when adding API operations in the same PR.
+[`samples/MonitorConsole`](samples/README.md) and [`samples/FileBasedProducts`](samples/README.md) must reflect **implemented** SDK behaviour only. Update them when adding API operations in the same PR (MonitorConsole for full operation coverage; FileBasedProducts for the file-based quick-start and CI smoke).
 
 ## Skills
 
