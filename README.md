@@ -5,7 +5,7 @@ Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.c
 [![CI](https://github.com/markheydon/dns-check-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/markheydon/dns-check-dotnet/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/DnsCheck.Client.svg)](https://www.nuget.org/packages/DnsCheck.Client/)
 
-> **Stable `1.0.0`.** All documented v1 monitoring GET operations are implemented. Public API changes follow SemVer — see [VERSIONING.md](VERSIONING.md).
+> **Stable 1.x** (current: [1.0.2](https://www.nuget.org/packages/DnsCheck.Client/1.0.2)). All documented v1 monitoring GET operations are implemented. Public API changes follow SemVer — see [VERSIONING.md](VERSIONING.md).
 
 **Documentation:** [markheydon.me.uk/dns-check-dotnet](https://markheydon.me.uk/dns-check-dotnet/) — source in [`docs/`](docs/README.md).
 
@@ -43,7 +43,7 @@ DnsRecordGroup group = await client.Groups.GetAsync(exampleGroup);
 IReadOnlyList<DnsRecord> records = await client.DnsRecords.ListInGroupAsync(exampleGroup);
 ```
 
-Omit `ApiKey` in `AddDnsCheckClient` for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). See [Getting started](docs/getting-started.md) for registration and test `HttpClient` patterns.
+Omit `ApiKey` in `AddDnsCheckClient` for the [public example group](https://www.dnscheck.co/api/dns-record-group-monitoring). See [Getting started](docs/getting-started.md) for registration, test `HttpClient` patterns, and .NET 10+ file-based apps (`#:package`).
 
 ## Building from source
 
@@ -72,4 +72,4 @@ MIT — see [LICENSE](LICENSE).
 ## Resources
 
 - [DNS Check API documentation](https://www.dnscheck.co/api)
-- [Console sample](samples/README.md)
+- [Samples](samples/README.md) — MonitorConsole live checks and FileBasedProducts quick start

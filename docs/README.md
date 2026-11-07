@@ -2,7 +2,7 @@
 
 Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.co/api). These pages cover installation, authentication, and the SDK operations mapped to the upstream v1 GET API.
 
-**New here?** Start with [Getting started](getting-started.md).
+**New here?** Start with [Getting started](getting-started.md) (DI registration, exceptions, and .NET 10+ file-based apps).
 
 ## Guides
 
@@ -16,7 +16,7 @@ Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.c
 
 - [Repository README](https://github.com/markheydon/dns-check-dotnet/blob/main/README.md)
 - [NuGet package](https://www.nuget.org/packages/DnsCheck.Client/)
-- [Console sample](https://github.com/markheydon/dns-check-dotnet/blob/main/samples/README.md)
+- [Samples](https://github.com/markheydon/dns-check-dotnet/blob/main/samples/README.md) — MonitorConsole and FileBasedProducts
 - [DNS Check API documentation](https://www.dnscheck.co/api)
 
 Contributor-only notes (for example CI live smoke) live under [`contributing/`](contributing/ci-live-smoke.md) in the repository and are excluded from this site build.

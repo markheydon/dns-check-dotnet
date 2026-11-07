@@ -18,7 +18,7 @@ This project is a strongly typed, unofficial client in the same spirit as [freea
 
 - **G1:** Provide a clean .NET SDK for the documented DNS Check **v1 monitoring** API (groups and records).
 - **G2:** Callers discover operations from IntelliSense (`Groups`, `DnsRecords`) without reconstructing paths or query strings.
-- **G3:** Typed models, status enums, and a small exception hierarchy for HTTP and parse failures.
+- **G3:** Typed models, status enums, and a small exception hierarchy for HTTP and parse failures. Transport and cancellation failures from `HttpClient` are not wrapped; see [docs/getting-started.md](docs/getting-started.md#errors-and-exceptions).
 - **G4:** API keys stay with the caller; the SDK never logs secrets.
 - **G5:** Enable contributions without destabilising the public API.
 

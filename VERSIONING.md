@@ -1,7 +1,7 @@
 # Versioning Policy
 
 **Project:** DnsCheck.Client
-**Last updated:** 2 October 2026
+**Last updated:** 7 November 2026
 
 ---
 
@@ -20,6 +20,14 @@ This project uses [Semantic Versioning 2.0.0](https://semver.org/). Public API c
 - Major releases (`2.0.0`): breaking public API changes.
 
 Pre-1.0 alpha packages used the `0.1.0-alpha.n` tag format. Do not reuse those versions after 1.0.0.
+
+**Current NuGet release:** `1.0.2` (see `<Version>` in `src/DnsCheck.Client/DnsCheck.Client.csproj` on the branch you are releasing from).
+
+### 1.0.x patch line (after 1.0.0)
+
+Patch releases keep the same public monitoring API surface. Notable changes:
+
+- **1.0.2** — REST JSON deserialisation uses System.Text.Json source generation so trimmed and file-based apps work without `JsonSerializerIsReflectionEnabledByDefault`.
 
 ---
 
@@ -42,5 +50,6 @@ See [plan/RELEASE.md](plan/RELEASE.md). Tag `vX.Y.Z` must match `<Version>` in `
 
 | Date | Change | Reason |
 |---|---|---|
+| 7 November 2026 | Document 1.0.2 patch line and current release pointer | Goals review documentation refresh |
 | 2 October 2026 | Stable 1.0.0 | First stable monitoring SDK release |
 | 2 October 2026 | Initial draft | Repository scaffold |

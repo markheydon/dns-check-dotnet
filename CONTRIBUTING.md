@@ -29,7 +29,13 @@ Verify formatting:
 dotnet format DnsCheck.slnx --verify-no-changes
 ```
 
-Live API smoke (optional locally; GitHub Actions runs it on `main` pushes, schedule, or manual dispatch when `DNSCHECK_API_KEY` is configured):
+CI exercises the live public example group on every build via the file-based sample:
+
+```bash
+dotnet run samples/FileBasedProducts/GetExampleGroup.cs
+```
+
+Optional MonitorConsole smoke (local or GitHub Actions on `main` pushes, schedule, or manual dispatch when `DNSCHECK_API_KEY` is configured):
 
 ```bash
 dotnet run --project samples/MonitorConsole -- --run-all

@@ -26,7 +26,7 @@ Treat the key as a secret. Do not commit it to source control.
 | `DNSCHECK_API_KEY` | API key for live smoke tests |
 | `DNSCHECK_GROUP_UUID` | Optional specific group UUID |
 
-Default CI jobs use mocked HTTP only. The optional **Console Sample Smoke** workflow reads `DNSCHECK_API_KEY` when configured — see [contributing/ci-live-smoke.md](contributing/ci-live-smoke.md).
+Unit tests in CI use mocked HTTP. Every **Build & Test** run also smoke-tests the public example group via `samples/FileBasedProducts` (no API key). The optional **Console Sample Smoke** job reads `DNSCHECK_API_KEY` when configured — see [contributing/ci-live-smoke.md](contributing/ci-live-smoke.md).
 
 ## Account-wide listing
 

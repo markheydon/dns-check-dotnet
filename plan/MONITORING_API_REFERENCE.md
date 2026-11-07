@@ -62,7 +62,7 @@ Wrapper types: `GroupResponse`, `GroupsListResponse`, `DnsRecordResponse`, `DnsR
 - Do not pass `api_key` in caller-supplied query parameters; `RestClient` rejects duplicates
 - Fail-fast positive integer `recordId` on `DnsRecords.GetAsync` (see `DnsRecordService`)
 - Relative paths passed to `RestClient.BuildRequestUri` must pass `ApiPathValidation.ValidateRelativePath` (no `..`, `%`, `?`, `#`, leading `/`, or absolute URI schemes)
-- `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions`
+- `GetAsync<T>(relativePath, cancellationToken)` — deserialize with `DnsCheckJsonSerializerOptions` (`TypeInfoResolver` combines `DnsCheckJsonContext` source generation with a default resolver for error bodies and fallback)
 - Map 401/404 (and other errors) to `DnsCheckApiException` with body text
 - Do not mutate injected `HttpClient.DefaultRequestHeaders`
 - No pagination or retry in v1
@@ -75,11 +75,20 @@ Relative paths: `groups/{uuid}`, `groups/{uuid}/{recordIdOrAll}`.
 
 - Fixtures under `tests/DnsCheck.Client.Tests/TestSupport/Fixtures/` from public example responses
 - `QueuedHttpMessageHandler`: assert path and `api_key` query parameter
-- Default CI uses mocked HTTP only; optional live smoke when `DNSCHECK_API_KEY` is configured (see [docs/contributing/ci-live-smoke.md](../docs/contributing/ci-live-smoke.md))
+- Default CI: mocked HTTP in unit tests; **Build & Test** also runs `samples/FileBasedProducts/GetExampleGroup.cs` against the live public example group (no API key)
+- Optional **Console Sample Smoke** when `DNSCHECK_API_KEY` is configured (see [docs/contributing/ci-live-smoke.md](../docs/contributing/ci-live-smoke.md))
 
 ---
 
-## Sample (`samples/MonitorConsole`)
+## Samples
+
+### `samples/FileBasedProducts`
+
+- Single `.cs` file with `#:project` (CI) or `#:package DnsCheck.Client@<version>` (consumers)
+- Fetches the public example group; run: `dotnet run samples/FileBasedProducts/GetExampleGroup.cs`
+- Validates source-generated JSON without `JsonSerializerIsReflectionEnabledByDefault`
+
+### `samples/MonitorConsole`
 
 - Interactive menu by default; `--run-all` for CI-style checks and dotnet test-style summary
 - Without key: example group get + list records (account-wide checks skipped)

@@ -16,7 +16,7 @@
 - Typed exception hierarchy for HTTP and API errors.
 - NuGet packaging and release workflow.
 - Consumer docs: getting started, authentication, API coverage.
-- Console sample for opt-in live smoke tests (not run in CI).
+- Samples: `FileBasedProducts` file-based quick start (live public example group on every CI build); `MonitorConsole` for optional local and scheduled authenticated live smoke.
 
 ---
 
@@ -36,5 +36,6 @@ Do not implement without an explicit scope change.
 
 | Date | Change | Reason |
 |---|---|---|
+| 7 November 2026 | Clarify samples and CI live smoke (FileBasedProducts) | Documentation refresh |
 | 7 November 2026 | Metadata refresh (no scope change) | Goals review follow-up |
 | 2 October 2026 | Initial draft | Repository scaffold |
