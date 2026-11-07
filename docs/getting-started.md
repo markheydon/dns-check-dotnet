@@ -69,4 +69,4 @@ The SDK maps DNS Check API and client-contract failures to `DnsCheckException` d
 
 Network connectivity problems, TLS failures, and DNS resolution errors surface as standard .NET types (for example `HttpRequestException`) from `HttpClient`. Cancelled operations propagate `OperationCanceledException` (including `TaskCanceledException` when the token or client timeout fires). The SDK does not wrap those transport-layer failures.
 
-`DnsCheckMonitoringNotImplementedException` remains for binary compatibility only; it is obsolete, is never thrown in current releases, and is scheduled for removal in 2.0.0.
+`DnsCheckMonitoringNotImplementedException` remains for binary compatibility only; it is obsolete, is never thrown in current releases.
