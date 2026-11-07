@@ -3,7 +3,7 @@
 # Conventions
 
 **Project:** DnsCheck.Client
-**Last updated:** 2 October 2026
+**Last updated:** 7 November 2026
 
 When in doubt, follow this file. To change a convention, update it and add an ADR for significant architecture changes.
 
