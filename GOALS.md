@@ -2,7 +2,7 @@
 
 **Project:** DnsCheck.Client
 **Owner:** Mark Heydon
-**Last updated:** 2 October 2026
+**Last updated:** 7 November 2026
 
 ---
 
@@ -54,5 +54,6 @@ This project is a strongly typed, unofficial client in the same spirit as [freea
 
 | Date | Change | Reason |
 |---|---|---|
+| 7 November 2026 | Governance metadata refresh; consumer exception guidance | Goals review follow-up |
 | 2 October 2026 | Stable 1.0.0 shipped | Monitoring GET API complete |
 | 2 October 2026 | Initial draft | Repository scaffold |

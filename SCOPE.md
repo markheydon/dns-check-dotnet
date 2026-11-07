@@ -1,7 +1,7 @@
 # Scope
 
 **Project:** DnsCheck.Client
-**Last updated:** 2 October 2026
+**Last updated:** 7 November 2026
 
 ---
 
@@ -36,4 +36,5 @@ Do not implement without an explicit scope change.
 
 | Date | Change | Reason |
 |---|---|---|
+| 7 November 2026 | Metadata refresh (no scope change) | Goals review follow-up |
 | 2 October 2026 | Initial draft | Repository scaffold |

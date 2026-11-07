@@ -54,3 +54,19 @@ IReadOnlyList<DnsRecord> allRecords = await client.DnsRecords.ListAllAsync();
 The public example group can be used without an API key when `DnsCheckClientOptions.ApiKey` is unset. See [authentication.md](authentication.md).
 
 See [api-coverage.md](api-coverage.md) for the full operation list.
+
+## Errors and exceptions
+
+The SDK maps DNS Check API and client-contract failures to `DnsCheckException` derivatives:
+
+| Exception | When |
+|-----------|------|
+| `DnsCheckRequestException` | Invalid path segments, missing API key for account-scoped calls, or other client-side request rules |
+| `DnsCheckApiException` | Non-success HTTP status from DNS Check (for example 401, 404) |
+| `DnsCheckParseException` | Success status but JSON that cannot be deserialised or is missing required envelope properties |
+
+`DnsCheckApiException` inherits from `DnsCheckHttpException`, which exposes `StatusCode`.
+
+Network connectivity problems, TLS failures, and DNS resolution errors surface as standard .NET types (for example `HttpRequestException`) from `HttpClient`. Cancelled operations propagate `OperationCanceledException` (including `TaskCanceledException` when the token or client timeout fires). The SDK does not wrap those transport-layer failures.
+
+`DnsCheckMonitoringNotImplementedException` remains for binary compatibility only; it is obsolete, is never thrown in current releases.

@@ -8,7 +8,7 @@ Unofficial .NET client for the [DNS Check monitoring API](https://www.dnscheck.c
 
 | Document | Purpose |
 |----------|---------|
-| [getting-started.md](getting-started.md) | Install the package and construct the client |
+| [getting-started.md](getting-started.md) | Install the package, construct the client, and handle exceptions |
 | [authentication.md](authentication.md) | API keys and environment variables |
 | [api-coverage.md](api-coverage.md) | SDK vs upstream API |
 
